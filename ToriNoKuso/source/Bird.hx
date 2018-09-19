@@ -15,11 +15,11 @@ class Bird extends FlxSprite {
 	{
 		super(X, Y, SimpleGraphic);
 
-		loadGraphic("assets/images/bird_placeholder.png", true, 32, 32);
+		loadGraphic("assets/images/squirrels1.png", true, 16, 16);
 
 	}
 
-  function movement():Void
+	public function movement():Void
   {
     _up = FlxG.keys.anyPressed([UP, W]);
     _down = FlxG.keys.anyPressed([DOWN, S]);

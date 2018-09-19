@@ -1,7 +1,10 @@
 package;
 import flixel.FlxSprite;
+import flixel.input.FlxPointer;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxTween;
+import flixel.math.FlxVelocity;
 /**
  * ...
  * @author ...
@@ -25,29 +28,27 @@ class Squirrel extends FlxSprite
 		
 	}
 	
-	public function move()
+	public function move(player:Bird)
 	{
-		if (ActionRNG == 1)
+		if (ActionRNG == 1 || ActionRNG == 4)
 		{
-			velocity.set( -100, 0);
+			 
+			movetoTarget(player, 2);
 		}
-		else if (ActionRNG <= 2 && ActionRNG >= 3)
+		else if (ActionRNG == 2 || ActionRNG == 3)
 		{
-			velocity.set( -75, 10);
+			velocity.set( -500,0 );
 		}
-		else if (ActionRNG == 4)
-		{
-			velocity.set( -75, -10);
-		}
+		
 	}
-	/*
-	public function movetoTarget(Player player)
+	
+	public function movetoTarget(player:Bird, time:Float)
 	{
-		var xtarget:Int = player.x;
-		var ytarget:Int = player.y;
-	FlxTween.tween(this, {x : xtarget, y : ytarget}, 2)
+	    var diffx:Float = player.x - this.x;
+		var diffy:Float = player.y - this.y;
+		velocity.set(diffx/ time, diffy/ time);
 		
 		
 	}
-	*/
+	
 }
