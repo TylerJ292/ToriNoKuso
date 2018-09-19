@@ -5,15 +5,20 @@ import flixel.FlxG;
 
 class Bird extends FlxSprite {
 
-  var speed:Float = 200;
-  var _up:Bool = false;
-  var _down:Bool = false;
-  var _left:Bool = false;
-  var _right:Bool = false;
+  //public var x:Int;
+  //public var y:Int;
+
+  public var speed:Float = 200;
+  //public var _up:Bool = false;
+  //public var _down:Bool = false;
+  //public var _left:Bool = false;
+  //public var _right:Bool = false;
+
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
+
 
 		loadGraphic("assets/images/squirrels1.png", true, 16, 16);
 
