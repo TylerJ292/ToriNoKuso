@@ -7,25 +7,28 @@ import flixel.math.FlxRandom;
 
 class PlayState extends FlxState
 {
-	
+
 	override public function create():Void
 	{
 		new FlxTimer().start(2, spawnSQ, 0);
-		
+
+		var _player:Bird = new Bird(50,50);
+		add(_player);
+
 		super.create();
-		
-		
+
+
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 	}
-	
-	
+
+
 	public function spawnSQ(Timer:FlxTimer):Void
 	{
-		
+
 		var _ran:FlxRandom = new FlxRandom();
 		var _rNum:Int = Std.int(_ran.float(2, 10));
 		var _rNum2:Int = Std.int(_ran.float(1, 4));
@@ -33,4 +36,5 @@ class PlayState extends FlxState
 		add(_sq);
 		_sq.move();
 	}
+
 }
