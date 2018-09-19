@@ -8,21 +8,33 @@ import flixel.math.FlxRandom;
 class PlayState extends FlxState
 {
 
+	var _player:Bird;
+
 	override public function create():Void
 	{
 		new FlxTimer().start(2, spawnSQ, 0);
 
-		var _player:Bird = new Bird(50,50);
+		_player = new Bird(50,50);
 		add(_player);
 
 		super.create();
 
-
 	}
 
-	override public function update(elapsed:Float):Void
-	{
+	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		if(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A) {
+			_player.x-=2;
+		}
+		if(FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
+			_player.x+=2;
+		}
+		if(FlxG.keys.pressed.UP || FlxG.keys.pressed.W) {
+			_player.y-=2;
+		}
+		if(FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
+			_player.y+=2;
+		}
 	}
 
 
