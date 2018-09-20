@@ -1,8 +1,9 @@
 package;
 
-import flixel.util.FlxTimer;
+import flixel.FlxState;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
+import flixel.group.FlxGroup;
 
 /**
  * The LevelManager keeps track of obstacles created, and generates new obstacles.
@@ -13,14 +14,15 @@ class LevelManager
 {
   // read-only property
     public static var instance(default, null):LevelManager = new LevelManager();
-	public static var state:PlayState = null;
+	public static var state:FlxState = null;
 	
 	//width and height in tile units
 	public static var segmentWidth = 15;
 	public static var segmentHeight = 15;
 	public static var unit = 32;
 	
-	public static var Obstacles:List<Obstacle> = new List<Obstacle>();
+	public static var Obstacles:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>();
+	public static var People:FlxTypedGroup<Person> = new FlxTypedGroup<Person>();
 	public static var RightmostObject:Obstacle = null;
 	
 	public static var screenSpeed:Float = -50;
@@ -38,6 +40,8 @@ class LevelManager
 		if (RightmostObject.getPosition().x < FlxG.width * 2){
 			genSegment();
 		}
+		
+		FlxG.collide(People, Obstacles, Person.onOverlap);
 		
 		for (o in Obstacles){
 			o.update(elapsed);
@@ -64,8 +68,6 @@ class LevelManager
 		
 		var _ran:FlxRandom = new FlxRandom();
 		
-		
-		
 		//marker
 		for (i in 1...3){
 			var _marker:Obstacle = new Obstacle(leftX, (segmentHeight-i)*unit, screenSpeed);
@@ -83,13 +85,15 @@ class LevelManager
 			
 			if (i == segmentWidth - 1){
 				RightmostObject = _floor;
-				trace("sdfg");
 			}
 		}
 		
 		//people
-		var _person:Person = new Person(leftX + (Std.int(_ran.float(2, 10))*unit), (segmentHeight - 3) * unit, screenSpeed);
-		state.add(_person);
-		Obstacles.add(_person);
+		for(i in 1..._ran.int(1,3)){
+			var _person:Person = new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
+			state.add(_person);
+			Obstacles.add(_person);
+			People.add(_person);
+		}
 	}
 }
