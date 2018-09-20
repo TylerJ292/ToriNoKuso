@@ -1,6 +1,5 @@
 package;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 /**
  * 
@@ -22,10 +21,6 @@ class Obstacle extends FlxSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		if (destroyIfOutOfBounds()){
-			this.kill();
-		}
 	}
 	
 	public function graphicFilename():String{
@@ -38,15 +33,6 @@ class Obstacle extends FlxSprite
 	
 	public function getHeight():Int{
 		return 32;
-	}
-	
-	/* This function returns true if the object should be destroyed if out of bounds.
-	 * 
-	 * If it should not be, override to return false.
-	 */
-	public function destroyIfOutOfBounds():Bool{
-		return getPosition().x < FlxG.width * -1 || getPosition().x > FlxG.width * 3.5
-		    || getPosition().y < FlxG.height * -1 || getPosition().y > FlxG.height * 2;
 	}
 	
 }
