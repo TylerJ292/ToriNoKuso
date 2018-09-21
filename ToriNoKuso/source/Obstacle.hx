@@ -16,6 +16,9 @@ class Obstacle extends FlxSprite
 		super(X, Y, SimpleGraphic);
 		loadGraphic(graphicFilename(), true, getWidth(), getHeight());
 		
+		LevelManager.state.add(this);
+		LevelManager.Obstacles.add(this);
+		
 		set_immovable(true);
 		
 		velocity.x = initSpeed;

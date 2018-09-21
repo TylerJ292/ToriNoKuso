@@ -29,6 +29,8 @@ class Person extends Obstacle
 	{
 		super(X, Y, SimpleGraphic, initSpeed);
 		
+		LevelManager.People.add(this);
+		
 		set_immovable(false);
 	}
 	
@@ -60,7 +62,6 @@ class Person extends Obstacle
 	}
 	
 	public static function onOverlap(_person:Person, _obs:Obstacle){
-		
 		
 		if (_person.state == Walking){
 			if (_person.dir == Left){

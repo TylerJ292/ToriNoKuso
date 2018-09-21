@@ -21,8 +21,11 @@ class LevelManager
 	public static var segmentHeight = 15;
 	public static var unit = 32;
 	
-	public static var Obstacles:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>();
+	//containers
+	public static var Obstacles:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>(); //all obstacles
+	public static var Solids:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>(); //for things people collide with
 	public static var People:FlxTypedGroup<Person> = new FlxTypedGroup<Person>();
+	
 	public static var RightmostObject:Obstacle = null;
 	
 	public static var screenSpeed:Float = -50;
@@ -41,7 +44,7 @@ class LevelManager
 			genSegment();
 		}
 		
-		FlxG.collide(People, Obstacles, Person.onOverlap);
+		FlxG.collide(People, Solids, Person.onOverlap);
 		
 		for (o in Obstacles){
 			o.update(elapsed);
@@ -71,8 +74,7 @@ class LevelManager
 		//marker
 		for (i in 1...3){
 			var _marker:Obstacle = new Obstacle(leftX, (segmentHeight-i)*unit, screenSpeed);
-			state.add(_marker);
-			Obstacles.add(_marker);
+			Solids.add(_marker);
 		}
 		
 		//generate each column
@@ -80,8 +82,7 @@ class LevelManager
 			
 			//floor
 			var _floor:Obstacle = new Obstacle(leftX+(i * unit), (segmentHeight-1) * unit, screenSpeed);
-			state.add(_floor);
-			Obstacles.add(_floor);
+			Solids.add(_floor);
 			
 			if (i == segmentWidth - 1){
 				RightmostObject = _floor;
@@ -91,9 +92,6 @@ class LevelManager
 		//people
 		for(i in 1..._ran.int(1,3)){
 			var _person:Person = new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
-			state.add(_person);
-			Obstacles.add(_person);
-			People.add(_person);
 		}
 	}
 }
