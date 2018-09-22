@@ -8,6 +8,7 @@ import flixel.math.FlxVelocity;
 import flixel.util.FlxTimer;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
+import flixel.math.FlxRandom;
 /**
  * ...
  * @author ...
@@ -15,7 +16,8 @@ import flixel.math.FlxMath;
 class Squirrel extends FlxSprite 
 {
 
-	//Speed of the Squirrel
+	//Speed of the Squirrel with Random gen var to get different speed
+	
 	public var Sspeed:Float = 350;
 	//Random number that determines the action of the Squirrel
 	public var ActionRNG:Int;
@@ -23,6 +25,8 @@ class Squirrel extends FlxSprite
 	 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, SType:Int, AIMove:Int) 
 	{
+		var _ran:FlxRandom = new FlxRandom();
+		Sspeed =  _ran.float(250, 400);
 		super(X, Y, SimpleGraphic);
 		stype = SType;
 		ActionRNG = AIMove;

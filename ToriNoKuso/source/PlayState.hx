@@ -21,7 +21,7 @@ class PlayState extends FlxState
 		add(_player);
 
 		super.create();
-		trace(FlxG.width, FlxG.height);
+		//trace(FlxG.width, FlxG.height);
 
 	}
 
