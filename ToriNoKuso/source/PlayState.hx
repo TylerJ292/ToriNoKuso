@@ -28,7 +28,7 @@ class PlayState extends FlxState
 	{
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
-		
+	//SquirrelSpawn System created
     var sqTimer:FlxTimer = new FlxTimer().start(2, spawnSQ, 0);
 		new FlxTimer().start(180, spawnBoss, 1);
     
