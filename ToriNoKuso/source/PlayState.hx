@@ -15,6 +15,9 @@ import level.LevelManager;
 class PlayState extends FlxState
 {
 
+	var _player:Bird;
+	var _sqgroup:FlxTypedGroup<Squirrel>;
+  
 	public var _player:Bird;
 	
 	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
@@ -33,7 +36,7 @@ class PlayState extends FlxState
     
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
-		var _player:Bird = new Bird(50,50);
+		_player:Bird = new Bird(50,50);
 
 		add(_player);
 		
@@ -41,7 +44,7 @@ class PlayState extends FlxState
 		add(_boss);
     
 		super.create();
-		trace(FlxG.width, FlxG.height);
+		//trace(FlxG.width, FlxG.height);
 
 	}
 
@@ -109,12 +112,37 @@ class PlayState extends FlxState
 		if(FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
 			_player.y+=2;
 		}
-
+		
 		for (members in _sqgroup)
 		{
 			members.checkdead();
+			
 		}
+		FlxG.overlap(_player, _sqgroup, sqgotHit);
+		
+	
 	}
+
+	public function sqgotHit(player:Bird, sq:Squirrel):Void
+	{
+		sq.dropdead();
+		
+	}
+	public function spawnSQ(Timer:FlxTimer):Void
+	{
+
+		var _ran:FlxRandom = new FlxRandom();
+		var _rSpawn:Int = Std.int(_ran.float(1, 3));
+		
+		for (i in 0..._rSpawn )
+		{
+			var _rNum:Int = Std.int(_ran.float(2, 10));
+			var _rNum2:Int = Std.int(_ran.float(1, 7));
+			
+			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20, 1, _rNum2 );
+			add(_sq);
+			_sqgroup.add(_sq);
+			_sq.move(_player);
 
 	//need to add delay so that there is a couple seconds of "invincibility" after
 	//the first instance of a collision
@@ -123,5 +151,5 @@ class PlayState extends FlxState
 			_player.healthTracker();
 		}
 	}
-
+	
 }
