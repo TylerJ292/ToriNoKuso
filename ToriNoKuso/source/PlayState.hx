@@ -1,13 +1,19 @@
 package;
 
 import flixel.FlxState;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
+import flixel.util.FlxColor;
+import level.LevelManager;
 
 class PlayState extends FlxState
 {
+
+	public var _player:Bird;
 	
+	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
 	var _boss:Boss;
 	var bossPattern:Int = 0;
 	var bossSpawned:Bool = false;
@@ -15,17 +21,21 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
-		var sqTimer:FlxTimer = new FlxTimer().start(2, spawnSQ, 0);
+    level.LevelManager.state = this;
+    FlxG.camera.bgColor= FlxColor.BLUE;
+		
+    var sqTimer:FlxTimer = new FlxTimer().start(2, spawnSQ, 0);
 		new FlxTimer().start(180, spawnBoss, 1);
-
+    
+    level.LevelManager.startLevelGen();
+    
 		var _player:Bird = new Bird(50,50);
 		add(_player);
 		
 		_boss = new Boss(FlxG.width -50, FlxG.height/3);
 		add(_boss);
-
+    
 		super.create();
-
 
 	}
 
@@ -51,6 +61,8 @@ class PlayState extends FlxState
 		}
 			
 		super.update(elapsed);
+		
+		level.LevelManager.update(elapsed);
 	}
 
 	public function spawnBoss(Timer:FlxTimer):Void{
@@ -60,13 +72,12 @@ class PlayState extends FlxState
 
 	public function spawnSQ(Timer:FlxTimer):Void
 	{
-/* 
 		var _ran:FlxRandom = new FlxRandom();
 		var _rNum:Int = Std.int(_ran.float(2, 10));
 		var _rNum2:Int = Std.int(_ran.float(1, 4));
 		var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20, 1, _rNum2 );
 		add(_sq);
-		_sq.move(); */
+		_sq.move();
 	}
 
 }
