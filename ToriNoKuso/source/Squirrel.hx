@@ -21,17 +21,18 @@ class Squirrel extends FlxSprite
 	public var Sspeed:Float = 350;
 	//Random number that determines the action of the Squirrel
 	public var ActionRNG:Int;
-	public var stype(default, null):Int;
+	
 	 
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, SType:Int, AIMove:Int) 
+	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, AIMove:Int) 
 	{
 		var _ran:FlxRandom = new FlxRandom();
 		Sspeed =  _ran.float(250, 400);
 		super(X, Y, SimpleGraphic);
-		stype = SType;
 		ActionRNG = AIMove;
 		
-		loadGraphic("assets/images/squirrels" + stype + ".png", true, 16, 16);
+		loadGraphic("assets/images/Squirrel.png", true, 32, 32);
+		animation.add("Fly", [0, 1, 2, 3, 4, 5, 6], 20, true);
+		animation.play("Fly");
 		
 	}
 	

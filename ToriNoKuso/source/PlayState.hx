@@ -121,7 +121,7 @@ class PlayState extends FlxState
 			var _rNum:Int = Std.int(_ran.float(2, 10));
 			var _rNum2:Int = Std.int(_ran.float(1, 7));
 			
-			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20, 1, _rNum2 );
+			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20,  _rNum2 );
 			add(_sq);
 			_sqgroup.add(_sq);
 			_sq.move(_player);
