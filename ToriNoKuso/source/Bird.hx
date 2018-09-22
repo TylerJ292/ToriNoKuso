@@ -26,11 +26,13 @@ class Bird extends FlxSprite {
 
 	public function movement():Void
   {
+	  /*
     _up = FlxG.keys.anyPressed([UP, W]);
     _down = FlxG.keys.anyPressed([DOWN, S]);
     _left = FlxG.keys.anyPressed([LEFT, A]);
     _right = FlxG.keys.anyPressed([RIGHT, D]);
-
+*/
+	/*
     // cancel out opposing directions
     if (_up && _down){
      _up = _down = false;
@@ -38,6 +40,6 @@ class Bird extends FlxSprite {
     if (_left && _right){
      _left = _right = false;
     }
-
+*/
   }
 }
