@@ -5,34 +5,32 @@ import flixel.FlxG;
 
 class Bird extends FlxSprite {
 
-  var speed:Float = 200;
-  var _up:Bool = false;
-  var _down:Bool = false;
-  var _left:Bool = false;
-  var _right:Bool = false;
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
 
-		loadGraphic("assets/images/bird_placeholder.png", true, 32, 32);
+
+		loadGraphic("assets/images/squirrels1.png", true, 16, 16);
+
+    var health:Int = 5;
+    var dead:Bool = false;
+    //var ammo:Ammo = 0;
 
 	}
 
-  function movement():Void
-  {
-    _up = FlxG.keys.anyPressed([UP, W]);
-    _down = FlxG.keys.anyPressed([DOWN, S]);
-    _left = FlxG.keys.anyPressed([LEFT, A]);
-    _right = FlxG.keys.anyPressed([RIGHT, D]);
-
-    // cancel out opposing directions
-    if (_up && _down){
-     _up = _down = false;
+  public function healthTracker() {
+    if (health > 0) {
+      health--;
+      trace("Player health now at ", health);
     }
-    if (_left && _right){
-     _left = _right = false;
-    }
-
+    dead = true;
+    trace("Player died");
+    //game over, screen freezes and text appears
   }
+
+  pubic function diveForFood() {
+    //on button press, move player vertically down the screen
+  }
+
 }
