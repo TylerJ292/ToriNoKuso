@@ -31,8 +31,8 @@ class Squirrel extends FlxSprite
 		ActionRNG = AIMove;
 		
 		loadGraphic("assets/images/Squirrel.png", true, 32, 32);
-		animation.add("Fly", [0, 1, 2, 3, 4, 5, 6], 20, true);
-		animation.play("Fly");
+		animation.add("SqFly", [0, 1, 2, 3, 4, 5, 6], 20, true);
+		animation.play("SqFly");
 		
 	}
 	

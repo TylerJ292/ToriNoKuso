@@ -5,6 +5,7 @@ import flixel.FlxG;
 
 class Bird extends FlxSprite {
 
+	public var dive:Bool = false;
 	public var dead:Bool = false;
 	//public var health:Int = 5;
 
@@ -13,7 +14,10 @@ class Bird extends FlxSprite {
 		super(X, Y, SimpleGraphic);
 
 
-		loadGraphic("assets/images/squirrels1.png", true, 16, 16);
+		loadGraphic("assets/images/Pigeon.png", true, 32, 32);
+	
+		animation.add("BirdFly", [0, 1, 2, 3, 4], 10, true);
+		animation.play("BirdFly");
 	}
 
   public function healthTracker() {

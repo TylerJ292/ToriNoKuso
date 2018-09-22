@@ -72,6 +72,11 @@ class PlayState extends FlxState
 		collisionCheck();
 		
 		level.LevelManager.update(elapsed);
+		for (members in _sqgroup)
+		{
+			members.checkdead();
+			
+		}
 	}
 
 	public function spawnBoss(Timer:FlxTimer):Void{
@@ -94,11 +99,7 @@ class PlayState extends FlxState
 			_player.y+=2;
 		}
 		
-		for (members in _sqgroup)
-		{
-			members.checkdead();
-			
-		}
+		
 		FlxG.overlap(_player, _sqgroup, sqgotHit);
 		
 	
