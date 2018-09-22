@@ -44,21 +44,28 @@ class PlayState extends FlxState
 		for (members in _sqgroup)
 		{
 			members.checkdead();
+			
 		}
+		FlxG.overlap(_player, _sqgroup, sqgotHit);
+		
 	
 	}
 
-
+	public function sqgotHit(player:Bird, sq:Squirrel):Void
+	{
+		sq.dropdead();
+		
+	}
 	public function spawnSQ(Timer:FlxTimer):Void
 	{
 
 		var _ran:FlxRandom = new FlxRandom();
-		var _rSpawn:Int = Std.int(_ran.float(1, 5));
+		var _rSpawn:Int = Std.int(_ran.float(1, 3));
 		
 		for (i in 0..._rSpawn )
 		{
 			var _rNum:Int = Std.int(_ran.float(2, 10));
-			var _rNum2:Int = Std.int(_ran.float(1, 5));
+			var _rNum2:Int = Std.int(_ran.float(1, 7));
 			
 			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20, 1, _rNum2 );
 			add(_sq);

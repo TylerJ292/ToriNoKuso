@@ -33,35 +33,55 @@ class Squirrel extends FlxSprite
 	
 	public function move(player:Bird)
 	{
-		if (ActionRNG == 1 || ActionRNG == 2)
+		if (ActionRNG == 1 )
 		{
-			 
 			movetoTarget(player);
 		}
-		else if (ActionRNG == 3 || ActionRNG == 4)
+		else if (ActionRNG == 2|| ActionRNG == 3 || ActionRNG == 4)
 		{
 			velocity.set( -1 * Sspeed, 0 );
 		}
-		
-		
+		else if (ActionRNG == 5)
+		{
+			this.x = 640;
+			this.y = 100;
+			var point:FlxPoint = new FlxPoint(0, 280);
+			FlxVelocity.moveTowardsPoint(this,  point, Sspeed);
+			
+		}
+		else if (ActionRNG == 6)
+		{
+			this.x = 640;
+			this.y = 280;
+			var point:FlxPoint = new FlxPoint(0, 100);
+			FlxVelocity.moveTowardsPoint(this,  point, Sspeed);
+		}
 	}
 	
-	public function movetoTarget(player:Bird)
+	function movetoTarget(player:Bird)
 	{
 		var angle:Float = FlxAngle.angleBetween(this , player, false);
 		velocity.set( Sspeed * FlxMath.fastCos(angle), Sspeed * FlxMath.fastSin(angle));
 		
 		
 	}
-	
-	public function waitAttack()
+	public function dropdead()
 	{
-		new FlxTimer().start(2 , 1);
+		velocity.set( -1 * Sspeed/ 3, 3 * Sspeed);
 	}
+	function waitAttack1(Timer:FlxTimer):Void
+	{
+		velocity.set(-1 * Sspeed, -50);
+	}
+		function waitAttack2(Timer:FlxTimer):Void
+	{
+		velocity.set(-1 * Sspeed, 50);
+	}
+	
 	
 	public function checkdead():Void
 	{
-		if (this.x < -20)
+		if (this.x < -20 || this.y < -50 || this.y > 680)
 		{
 			destroy();
 		}
