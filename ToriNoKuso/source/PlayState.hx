@@ -1,24 +1,29 @@
 package;
 
 import flixel.FlxState;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
 import flixel.util.FlxColor;
+import level.LevelManager;
 
 class PlayState extends FlxState
 {
+	public var _player:Bird;
+	
+	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
 	
 	override public function create():Void
 	{
-		LevelManager.state = this;
+		level.LevelManager.state = this;
 		
 		FlxG.camera.bgColor= FlxColor.BLUE;
 		
 		new FlxTimer().start(2, spawnSQ, 0);
-		LevelManager.startLevelGen();
+		level.LevelManager.startLevelGen();
 		
-		var _player:Bird = new Bird(50,50);
+		_player = new Bird(50,50);
 		add(_player);
 		
 		super.create();
@@ -29,7 +34,7 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		
-		LevelManager.update(elapsed);
+		level.LevelManager.update(elapsed);
 	}
 	
 	public function spawnSQ(Timer:FlxTimer):Void

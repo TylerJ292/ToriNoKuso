@@ -1,14 +1,17 @@
-package;
+package level;
+
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import level.LevelManager;
 /**
+ * A "LevelObject" is any object that moves with the scrolling level (as opposed to the player or squirrels).
  * 
- * base class, obstacles should be extended from this
+ * People, backgrounds, and obstacles all extend from this class.
  * 
  * @author Jay
  */
-class Obstacle extends FlxSprite 
+class LevelObject extends FlxSprite 
 {
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float) 
@@ -17,9 +20,7 @@ class Obstacle extends FlxSprite
 		loadGraphic(graphicFilename(), true, getWidth(), getHeight());
 		
 		LevelManager.state.add(this);
-		LevelManager.Obstacles.add(this);
-		
-		set_immovable(true);
+		LevelManager.LevelObjects.add(this);
 		
 		velocity.x = initSpeed;
 	}
@@ -53,5 +54,4 @@ class Obstacle extends FlxSprite
 		return getPosition().x < FlxG.width * -1 || getPosition().x > FlxG.width * 3.5
 		    || getPosition().y < FlxG.height * -1 || getPosition().y > FlxG.height * 2;
 	}
-	
 }

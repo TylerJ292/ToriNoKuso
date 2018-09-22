@@ -1,12 +1,13 @@
-package;
+package level;
 
+import flixel.FlxBasic;
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.math.FlxRandom;
 import flixel.group.FlxGroup;
 
 /**
- * The LevelManager keeps track of obstacles created, and generates new obstacles.
+ * The LevelManager keeps track of backgrounds, people, abd obstacles created, and generates new obstacles.
  * 
  * @author Jay
  */
@@ -14,7 +15,7 @@ class LevelManager
 {
   // read-only property
     public static var instance(default, null):LevelManager = new LevelManager();
-	public static var state:FlxState = null;
+	public static var state:PlayState = null;
 	
 	//width and height in tile units
 	public static var segmentWidth = 15;
@@ -22,8 +23,9 @@ class LevelManager
 	public static var unit = 32;
 	
 	//containers
+	public static var LevelObjects:FlxTypedGroup<LevelObject> = new FlxTypedGroup<LevelObject>(); //all obstacles
 	public static var Obstacles:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>(); //all obstacles
-	public static var Solids:FlxTypedGroup<Obstacle> = new FlxTypedGroup<Obstacle>(); //for things people collide with
+	public static var Solids:FlxTypedGroup<LevelObject> = new FlxTypedGroup<LevelObject>(); //for things people collide with
 	public static var People:FlxTypedGroup<Person> = new FlxTypedGroup<Person>();
 	
 	public static var RightmostObject:Obstacle = null;
@@ -44,22 +46,22 @@ class LevelManager
 			genSegment();
 		}
 		
-		FlxG.collide(People, Solids, Person.onOverlap);
+		FlxG.collide(People, Solids, Person.onCollision);
+
+		FlxG.overlap(state._player, People, function( _b:Bird, _p:Person){ _p.onDiveAttack(_b);});
+		///*testing only:*/ FlxG.overlap(People, People, function( _b:Person, _p:Person){ _p.onDiveAttack(state._player);});
 		
-		for (o in Obstacles){
-			o.update(elapsed);
-			if (!o.alive){
-				Obstacles.remove(o);
-				state.remove(o);
+		for (obj in LevelObjects){
+			obj.update(elapsed);
+			if (!obj.alive){
+				//LevelObjects.remove(obj);
+				//state.remove(obj);
 			}
 		}
 	}
 	
 	/**
 	 * Spawn the next segment of the level
-	 * 
-	 * 
-	 * @param	Timer
 	 */
 	public static  function genSegment():Void
 	{
@@ -91,7 +93,7 @@ class LevelManager
 		
 		//people
 		for(i in 1..._ran.int(1,3)){
-			var _person:Person = new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
+			new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
 		}
 	}
 }
