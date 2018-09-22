@@ -5,6 +5,8 @@ import flixel.FlxG;
 
 class Bird extends FlxSprite {
 
+	public var dead:Bool = false;
+	//public var health:Int = 5;
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
@@ -12,11 +14,6 @@ class Bird extends FlxSprite {
 
 
 		loadGraphic("assets/images/squirrels1.png", true, 16, 16);
-
-    var health:Int = 5;
-    var dead:Bool = false;
-    //var ammo:Ammo = 0;
-
 	}
 
   public function healthTracker() {
@@ -29,7 +26,7 @@ class Bird extends FlxSprite {
     //game over, screen freezes and text appears
   }
 
-  pubic function diveForFood() {
+  public function diveForFood() {
     //on button press, move player vertically down the screen
   }
 
