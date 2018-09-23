@@ -7,6 +7,7 @@ class Bird extends FlxSprite implements Carrier{
 
 	public var dive:Bool = false;
 	public var dead:Bool = false;
+	public var ammo:Int = 10;
 	//public var health:Int = 5;
 
   public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)

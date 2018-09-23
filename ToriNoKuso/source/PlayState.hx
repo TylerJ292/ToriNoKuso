@@ -24,14 +24,15 @@ class PlayState extends FlxState
 	var bossSpawned:Bool = false;
 	public var bossAngle:Float;
 	public var pullUp:Bool = false;
+	 var sqTimer:FlxTimer;
 
 	override public function create():Void
 	{
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
-		//SquirrelSpawn System created
-    var sqTimer:FlxTimer = new FlxTimer().start(2, spawnSQ, 0);
-		new FlxTimer().start(1, spawnBoss, 1);
+	//SquirrelSpawn System created
+    sqTimer = new FlxTimer().start(2, spawnSQ, 0);
+		new FlxTimer().start(180, spawnBoss, 1);
     
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
@@ -95,17 +96,29 @@ class PlayState extends FlxState
 
 	public function playerMovement(){
 
-		if(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A) {
-			_player.x-=2;
+		if (FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A) {
+			if(_player.x > 0){
+				_player.x -= 2;
+			}
+			
 		}
-		if(FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
-			_player.x+=2;
+		if (FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
+			if(_player.x < 600){
+				_player.x += 2;
+			}
+			
 		}
-		if(FlxG.keys.pressed.UP || FlxG.keys.pressed.W) {
-			_player.y-=2;
+		if (FlxG.keys.pressed.UP || FlxG.keys.pressed.W) {
+			if(_player.y > 0){
+				_player.y -= 2;
+			}
+			
 		}
-		if(FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
-			_player.y+=2;
+		//288
+		if (FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
+			if(_player.y < 500){
+				_player.y += 2;
+			}
 		}
 		if(_player.dive){
 			if(!pullUp){
