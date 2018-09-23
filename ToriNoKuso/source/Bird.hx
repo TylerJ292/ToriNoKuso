@@ -29,9 +29,5 @@ class Bird extends FlxSprite {
     trace("Player died");
     //game over, screen freezes and text appears
   }
-
-  public function diveForFood() {
-    //on button press, move player vertically down the screen
-  }
-
+	
 }
