@@ -3,7 +3,7 @@ import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 
-class Bird extends FlxSprite {
+class Bird extends FlxSprite implements Carrier{
 
 	public var dive:Bool = false;
 	public var dead:Bool = false;
@@ -34,4 +34,11 @@ class Bird extends FlxSprite {
     //on button press, move player vertically down the screen
   }
 
+	public function getCarryX():Float{
+		return 8;
+	}
+	
+	public function getCarryY():Float{
+		return -4;
+	}
 }
