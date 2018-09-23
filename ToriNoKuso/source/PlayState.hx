@@ -26,6 +26,7 @@ class PlayState extends FlxState
 	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
 	 var sqTimer:FlxTimer;
+	public var dive:Bool = false;
 
 	override public function create():Void
 	{
@@ -56,7 +57,12 @@ class PlayState extends FlxState
     playerMovement();
 	Shoot();
 		collisionCheck();
-		
+		if(dive){
+			_player.diving();
+			if(!_player.dive){
+				dive = false;
+			}
+		}
 		level.LevelManager.update(elapsed);
 		for (members in _sqgroup)
 		{
@@ -125,19 +131,8 @@ class PlayState extends FlxState
 				_player.y += 2;
 			}
 		}
-		if(_player.dive){
-			if(!pullUp){
-				_player.velocity.set(150, 150);
-			}
-			else if(pullUp){
-				_player.velocity.set(150, -150);
-			}
-			if(_player.y <= FlxG.height - 32){
-				pullUp = true;
-			}
-			if(_player.y >= 288){
-				_player.dive = false;
-			}
+		if(FlxG.keys.pressed.X) {
+			dive = true;
 		}
 		
 	
