@@ -8,6 +8,7 @@ class Bird extends FlxSprite implements Carrier{
 
 	public var dive:Bool = false;
 	public var dead:Bool = false;
+	public var pullUp:Bool = false;
 	public var ammo:Int = 10;
 	public var invinc:Bool = false;
 	//public var health:Int = 5;
@@ -50,6 +51,27 @@ class Bird extends FlxSprite implements Carrier{
 		return 8;
 	}
 	
+	public function diving(){
+		if(!dive){
+			dive = true;
+		}
+		if(dive){
+			if(!pullUp){
+				velocity.set(150, 150);
+			}
+			else if(pullUp){
+				velocity.set(150, -150);
+			}
+			if(this.y >= FlxG.height - 32){
+				pullUp = true;
+			}
+			if(this.y <= FlxG.height - 288){
+				dive = false;
+				velocity.set(0, 0);
+				pullUp = false;
+			}
+		}
+	}
 	public function getCarryY():Float{
 		return -4;
 	}
