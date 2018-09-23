@@ -23,6 +23,7 @@ class PlayState extends FlxState
 	var bossPattern:Int = 0;
 	var bossSpawned:Bool = false;
 	public var bossAngle:Float;
+	public var pullUp:Bool = false;
 	 var sqTimer:FlxTimer;
 
 	override public function create():Void
@@ -38,9 +39,6 @@ class PlayState extends FlxState
 		_player = new Bird(50,50);
 
 		add(_player);
-		
-		_boss = new Boss(FlxG.width -50, FlxG.height/3);
-		add(_boss);
     
 		super.create();
 		//trace(FlxG.width, FlxG.height);
@@ -49,25 +47,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (bossSpawned && !_boss.grounded){
-			if (_boss.x <= 0 || _boss.x +48 >= FlxG.width){
-				_boss.directedCharge = false;
-				
-				_boss.bossDirX = -_boss.bossDirX;
-				
-				var _ran:FlxRandom = new FlxRandom();
-				bossAngle = Std.int(_ran.float(40, 70));
-				
-				var _ran:FlxRandom = new FlxRandom();
-				bossPattern = Std.int(_ran.float(0, 5));
-			}
-			if (_boss.y <= 32 || _boss.y -48 >= FlxG.height){
-				_boss.bossDirY = -_boss.bossDirY;
-			}
-			
-			_boss.bossMove(bossPattern, bossAngle);
-		}
-			
+		
+		bossMovement();
 		super.update(elapsed);
     playerMovement();
 		collisionCheck();
@@ -82,8 +63,35 @@ class PlayState extends FlxState
 
 	public function spawnBoss(Timer:FlxTimer):Void{
 		bossSpawned = true;
-		//sqTimer.cancel();
+		_boss = new Boss(FlxG.width -50, FlxG.height/3);
+		add(_boss);
 		// sqTimer.destroy();
+	}
+	
+	public function bossMovement(){
+		if (bossSpawned && !_boss.grounded){
+			if (_boss.x <= 0 || _boss.x +32 >= FlxG.width){
+				_boss.directedCharge = false;
+				
+				_boss.bossDirX = -_boss.bossDirX;
+				_boss.x += _boss.bossDirX;
+				
+				var _ran:FlxRandom = new FlxRandom();
+				bossAngle = Std.int(_ran.float(40, 70));
+				
+				var _ran:FlxRandom = new FlxRandom();
+				bossPattern = Std.int(_ran.float(0, 5));
+			}
+			if (_boss.y <= 32 || _boss.y -32 >= FlxG.height - 200){
+				_boss.bossDirY = -_boss.bossDirY;
+				_boss.y += _boss.bossDirY;
+			}
+			
+			_boss.bossMove(bossPattern, bossAngle, _player);
+		}
+		else if(bossSpawned && _boss.grounded && _boss.y >= 32){
+			_boss.velocity.set(_boss.bossDirX * 100, 50);
+		}
 	}
 
 	public function playerMovement(){
@@ -112,7 +120,20 @@ class PlayState extends FlxState
 				_player.y += 2;
 			}
 		}
-		
+		if(_player.dive){
+			if(!pullUp){
+				_player.velocity.set(150, 150);
+			}
+			else if(pullUp){
+				_player.velocity.set(150, -150);
+			}
+			if(_player.y <= FlxG.height - 32){
+				pullUp = true;
+			}
+			if(_player.y >= 288){
+				_player.dive = false;
+			}
+		}
 		
 		FlxG.overlap(_player, _sqgroup, sqgotHit);
 		
@@ -148,6 +169,13 @@ class PlayState extends FlxState
 	public function collisionCheck(){
 		if(FlxG.overlap(_player, _sqgroup)) {
 			_player.healthTracker();
+		}
+		// Need to make a poop group
+		/* if(FlxG.overlap(_boss, _poopGroup) && !_boss.grounded){
+			_boss.drop();
+		} */
+		if(bossSpawned && _boss.grounded && FlxG.overlap(_player, _boss)){
+			_boss.damage();
 		}
 	}
 	
