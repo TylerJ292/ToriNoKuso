@@ -51,7 +51,7 @@ class LevelObject extends FlxSprite
 	 * If it should not be, override to return false.
 	 */
 	public function destroyIfOutOfBounds():Bool{
-		return getPosition().x < FlxG.width * -1 || getPosition().x > FlxG.width * 3.5
-		    || getPosition().y < FlxG.height * -1 || getPosition().y > FlxG.height * 2;
+		return getPosition().x < FlxG.width * -0.5 || getPosition().x > FlxG.width * 3.5
+		    || getPosition().y < FlxG.height * -0.5 || getPosition().y > FlxG.height * 1.5;
 	}
 }
