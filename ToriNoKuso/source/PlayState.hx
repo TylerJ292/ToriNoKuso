@@ -17,12 +17,13 @@ class PlayState extends FlxState
 
 	public var _player:Bird;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
-	
+	public var _Ammogroup:FlxTypedGroup<Ammo>;
 	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
 	var _boss:Boss;
 	var bossPattern:Int = 0;
 	var bossSpawned:Bool = false;
 	public var bossAngle:Float;
+	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
 	 var sqTimer:FlxTimer;
 
@@ -36,6 +37,8 @@ class PlayState extends FlxState
     
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
+	_Ammogroup = new FlxTypedGroup<Ammo>(0);
+
 		_player = new Bird(50,50);
 
 		add(_player);
@@ -51,6 +54,7 @@ class PlayState extends FlxState
 		bossMovement();
 		super.update(elapsed);
     playerMovement();
+	Shoot();
 		collisionCheck();
 		
 		level.LevelManager.update(elapsed);
@@ -59,6 +63,7 @@ class PlayState extends FlxState
 			members.checkdead();
 			
 		}
+			FlxG.overlap(_Ammogroup, _sqgroup, sqgotHit);
 	}
 
 	public function spawnBoss(Timer:FlxTimer):Void{
@@ -135,14 +140,29 @@ class PlayState extends FlxState
 			}
 		}
 		
-		FlxG.overlap(_player, _sqgroup, sqgotHit);
+	
 		
 	
 	}
 
-	public function sqgotHit(player:Bird, sq:Squirrel):Void
+	
+	public function Shoot(){
+		if (FlxG.keys.pressed.Z && _player.ammo > 0 && canShoot == true) {
+	
+		canShoot = false;
+		var _poop:Ammo = new Ammo(_player.x, _player.y);
+		add(_poop);
+		new FlxTimer().start(.5, shootreset, 1);
+		_Ammogroup.add(_poop);
+		}
+	}
+	public function shootreset(Timer:FlxTimer):Void{
+		canShoot = true;
+	}
+	public function sqgotHit(poop:Ammo, sq:Squirrel):Void
 	{
 		sq.dropdead();
+		poop.destroy();
 		
 	}
 	
