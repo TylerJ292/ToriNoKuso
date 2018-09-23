@@ -159,6 +159,8 @@ class Person extends level.Obstacle implements Carrier
 			_rock.velocity.y = -throwSpeedY * _ran.float(0.8, 1.2);
 			
 			_t.start(rockPeriod * _ran.float(0.8, 1.2), this.throwRock, 1);
+			
+			FlxG.sound.play("assets/sounds/throw.wav");
 		}
 	}
 
