@@ -72,7 +72,8 @@ class Squirrel extends FlxSprite
 	}
 	public function dropdead()
 	{
-		velocity.set( -1 * Sspeed/ 3, 3 * Sspeed);
+		velocity.set( -1 * Sspeed / 3, 3 * Sspeed);
+		
 	}
 	function waitAttack1(Timer:FlxTimer):Void
 	{
