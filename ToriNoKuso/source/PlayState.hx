@@ -25,7 +25,9 @@ class PlayState extends FlxState
 	public var bossAngle:Float;
 	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
+	var sqSpawnTimer:FlxTimer;
 	 var sqTimer:FlxTimer;
+	 var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
 
 	override public function create():Void
@@ -33,7 +35,9 @@ class PlayState extends FlxState
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
 	//SquirrelSpawn System created
-    sqTimer = new FlxTimer().start(2, spawnSQ, 0);
+		new FlxTimer().start(10, spawnSpawnSQ, 1);
+		new FlxTimer().start(70, SQIncreaseDifficulty, 1);
+		new FlxTimer().start(130, SQIncreaseDifficulty, 1);
 		new FlxTimer().start(180, spawnBoss, 1);
     
     level.LevelManager.startLevelGen();
@@ -165,20 +169,29 @@ class PlayState extends FlxState
 	{
 
 		var _ran:FlxRandom = new FlxRandom();
-		var _rSpawn:Int = Std.int(_ran.float(1, 3));
+		var _rSpawn:Int = Std.int(_ran.float(1 + sqTimeNum, 3 + sqTimeNum));
 		
 		for (i in 0..._rSpawn )
 		{
 			var _rNum:Int = Std.int(_ran.float(2, 10));
 			var _rNum2:Int = Std.int(_ran.float(1, 7));
-			
-			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20,  _rNum2 );
+			var _rNum3:Float = _ran.float(0, 2);
+			var _sq:Squirrel = new Squirrel(FlxG.width + 10 , _rNum * 20,  _rNum2 , _player);
 			add(_sq);
 			_sqgroup.add(_sq);
-			_sq.move(_player);
+			_sq.delayMove(_player, _rNum3);
+			
 		}
 	}
 	
+	public function spawnSpawnSQ(Timer:FlxTimer):Void{
+		sqTimer = new FlxTimer().start(2, spawnSQ, 0);
+		
+	}
+	public function SQIncreaseDifficulty(Timer:FlxTimer):Void{
+		sqTimeNum += 1;
+		
+	}
 	//need to add delay so that there is a couple seconds of "invincibility" after
 	//the first instance of a collision
 	public function collisionCheck(){

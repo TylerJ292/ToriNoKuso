@@ -9,6 +9,7 @@ import flixel.util.FlxTimer;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
+import haxe.Timer;
 /**
  * ...
  * @author ...
@@ -21,12 +22,14 @@ class Squirrel extends FlxSprite
 	public var Sspeed:Float = 350;
 	//Random number that determines the action of the Squirrel
 	public var ActionRNG:Int;
+	public var _player:Bird;
 	
 	 
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, AIMove:Int) 
+	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, AIMove:Int, Player:Bird) 
 	{
 		var _ran:FlxRandom = new FlxRandom();
 		Sspeed =  _ran.float(250, 400);
+		_player = Player;
 		super(X, Y, SimpleGraphic);
 		ActionRNG = AIMove;
 		
@@ -35,7 +38,13 @@ class Squirrel extends FlxSprite
 		animation.play("SqFly");
 		
 	}
+	public function delayMove(player:Bird, num:Float){
+		new FlxTimer().start(num, delay, 1);
+	}
 	
+	public function delay(Timer:FlxTimer):Void{
+		this.move(_player);
+	}
 	public function move(player:Bird)
 	{
 		if (ActionRNG == 1 )
@@ -75,15 +84,7 @@ class Squirrel extends FlxSprite
 		velocity.set( -1 * Sspeed / 3, 3 * Sspeed);
 		
 	}
-	function waitAttack1(Timer:FlxTimer):Void
-	{
-		velocity.set(-1 * Sspeed, -50);
-	}
-		function waitAttack2(Timer:FlxTimer):Void
-	{
-		velocity.set(-1 * Sspeed, 50);
-	}
-	
+
 	
 	public function checkdead():Void
 	{
