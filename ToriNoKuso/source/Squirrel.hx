@@ -36,7 +36,7 @@ class Squirrel extends FlxSprite
 		loadGraphic("assets/images/Squirrel.png", true, 32, 32);
 		animation.add("SqFly", [0, 1, 2, 3, 4, 5, 6], 20, true);
 		animation.play("SqFly");
-		
+		scale.set(1.5, 1.5);
 	}
 	public function delayMove(player:Bird, num:Float){
 		new FlxTimer().start(num, delay, 1);
