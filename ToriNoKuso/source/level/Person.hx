@@ -28,7 +28,7 @@ enum Direction {
 	RIGHT;
 }
  
-class Person extends level.Obstacle implements Carrier
+class Person extends LevelObject implements Carrier
 {
 	//AI VALUES
 	public var state:State = INACTIVE;
@@ -45,6 +45,7 @@ class Person extends level.Obstacle implements Carrier
 	//these variables are not static or constants so that children may modify them for custom behavior
 	public var walkSpeed:Float = 30; //speed to casually walk at
 	public var runSpeed:Float = 70;  //speed to run at after dived at / food stolen
+	public var sadSpeed:Float = 10;  //speed to walk at after spirit is broken
 	public var shockTime:Float = 1; //amount of time (seconds) to stare at sky in abject horror after food is stolen or poop
 
 	public var rockPeriod:Float = 2.5; //amount of time (seconds) between rock throws
@@ -143,13 +144,33 @@ class Person extends level.Obstacle implements Carrier
 			}, 1);
 		}
 	}
+	
+	/**
+	 * Called when this person is hit with ammo.
+	 *
+	 * Override in children of Person to have custom behavior.
+	 */
+	public function onAmmoAttack(_ammo:Ammo){
+		if (this.state != DEPRESSED){
+			velocity.x = LevelManager.screenSpeed;
+			this.state = HIT;
+
+			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
+				this.state = DEPRESSED;
+				this.dir = LEFT;
+				velocity.x = LevelManager.screenSpeed - this.sadSpeed;
+			}, 1);
+		}
+		
+		_ammo.kill();
+	}
 
 	/**
 	 * Called when a person throws a rock
 	 * @param	_t
 	 */
 	public function throwRock(_t:FlxTimer) {
-		if (!this.alive) _t.cancel();
+		if (!this.alive || state != ANGRY) _t.cancel();
 		else{
 			var _rock:Rock = new Rock(this.x, this.y);
 			
@@ -185,6 +206,16 @@ class Person extends level.Obstacle implements Carrier
 				_person.startY = _person.y;
 				_person.acceleration.y = _person.gravity;
 				_person.velocity.y = -_person.jumpSpeed;
+			}
+		}
+		
+		if (_person.state == DEPRESSED){
+			if (_person.dir == LEFT){
+				_person.velocity.x += _person.sadSpeed;
+				_person.dir = RIGHT;
+			}else if (_person.dir == RIGHT){
+				_person.velocity.x -= _person.sadSpeed;
+				_person.dir = LEFT;
 			}
 		}
 	}

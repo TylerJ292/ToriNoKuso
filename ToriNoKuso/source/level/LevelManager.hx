@@ -53,6 +53,9 @@ class LevelManager
 		
 		/**		COLLISION DETECTION WITH LEVEL OBJECTS GOES HERE	**/
 		
+		//bird vs. obstacle
+		if (FlxG.overlap(state._player, Obstacles)) state._player.healthTracker();
+		
 		//people physics
 		FlxG.collide(People, Solids, Person.onCollision);
 		//check for diving bird attacking person
@@ -60,6 +63,12 @@ class LevelManager
 		
 		//food collision
 		FlxG.overlap(state._player, FoodObjects, function( _b:Bird, _f:Food){ _f.takeFood(_b); });
+		
+		//kuso collision
+		FlxG.overlap(state._Ammogroup, Obstacles, function(_a:Ammo, _o:Obstacle){
+			_a.kill();
+		});
+		FlxG.overlap(state._Ammogroup, People, function(_a:Ammo, _p:Person){_p.onAmmoAttack(_a); });
 		
 		for (obj in LevelObjects){
 			obj.update(elapsed);

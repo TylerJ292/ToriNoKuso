@@ -3,9 +3,12 @@ import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
+import flixel.effects.FlxFlicker;
 
 class Bird extends FlxSprite implements Carrier{
 
+	public static inline var INVINCIBLE_TIME = 2;
+	
 	public var dive:Bool = false;
 	public var dead:Bool = false;
 	public var pullUp:Bool = false;
@@ -29,7 +32,8 @@ class Bird extends FlxSprite implements Carrier{
     if (health > 0 && invinc == false ) {
       health--;
 	  invinc = true;
-	  new FlxTimer().start(2, invincframe, 1); 
+	  new FlxTimer().start(INVINCIBLE_TIME, invincframe, 1); 
+	  FlxFlicker.flicker(this, INVINCIBLE_TIME, 0.1);
       trace("Player health now at ", health);
     }
 	else if( health <= 0){
