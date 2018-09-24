@@ -16,7 +16,7 @@ class Ammo extends FlxSprite
 		animation.add("PoopDrop", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 10, true);
 		animation.play("PoopDrop");
 		velocity.set(0, 300);
-		scale.set(1.5, 1.5);
+		scale.set(3, 3);
 	}
 	
 }
