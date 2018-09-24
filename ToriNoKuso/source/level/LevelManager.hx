@@ -92,6 +92,19 @@ class LevelManager
 		
 		var _ran:FlxRandom = new FlxRandom();
 		
+		//generate each column
+		for ( i in 0...segmentWidth) {
+			
+			//floor
+			var _floor:Obstacle = new Obstacle(leftX + (i * unit), (segmentHeight - 1) * unit, screenSpeed);
+			new Sidewalk(leftX + (i * unit), (segmentHeight - 1.5) * unit, screenSpeed);
+			//Solids.add(_floor);
+			
+			if (i == segmentWidth - 1){
+				RightmostObject = _floor;
+			}
+		}
+		
 		//stop sign
 		if (_ran.int(0, 5) >= 4)
 		{
@@ -104,21 +117,9 @@ class LevelManager
 		//table
 		if (_ran.float() <= 0.3)
 		{
-			new Obstacle(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
-			new Food(leftX + unit*4, (segmentHeight - 3) * unit, screenSpeed, true);
+			new PicnicTable(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
+			new Food(leftX + unit*5, (segmentHeight - 3) * unit, screenSpeed, true);
 		}	
-		
-		//generate each column
-		for ( i in 0...segmentWidth) {
-			
-			//floor
-			var _floor:Obstacle = new Obstacle(leftX+(i * unit), (segmentHeight-1) * unit, screenSpeed);
-			//Solids.add(_floor);
-			
-			if (i == segmentWidth - 1){
-				RightmostObject = _floor;
-			}
-		}
 		
 		//people
 		for(i in 1..._ran.int(1,3)){
