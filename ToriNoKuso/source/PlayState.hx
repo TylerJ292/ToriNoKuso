@@ -11,6 +11,7 @@ import flixel.util.FlxCollision;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import level.LevelManager;
+import flixel.text.FlxText;
 
 class PlayState extends FlxState
 {
@@ -32,6 +33,7 @@ class PlayState extends FlxState
 	 var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
 	public var trackHP:Float = 0;
+	public var disammo:FlxText;
 	
 	override public function create():Void
 	{
@@ -51,6 +53,11 @@ class PlayState extends FlxState
 		add(_player);
 		 trackHP = _player.health;
 		convertArrayToHealth(_player.hpbarList);
+		var _poopicon:Heart = new Heart( 200 , 10, 5);
+		add(_poopicon);
+		disammo = new FlxText(240, 10, 64); // x, y, width
+		disammo.text = "X" + Std.string(_player.ammo);
+		disammo.size = 14;
 		super.create();
 		//trace(FlxG.width, FlxG.height);
 
@@ -164,7 +171,7 @@ class PlayState extends FlxState
 		_Ammogroup.add(_poop);
 		if(_player.ammo > 0){
 		_player.ammo -= 1;
-		trace(_player.ammo);
+		
 		}
 		}
 	}
