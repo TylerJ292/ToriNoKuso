@@ -8,6 +8,7 @@ import level.LevelObject;
 import level.Obstacle;
 import flixel.util.FlxTimer;
 import flixel.math.FlxRandom;
+import flixel.FlxObject;
 
 /**
  * Person who walks around and stuff
@@ -64,6 +65,14 @@ class Person extends LevelObject implements Carrier
 		set_immovable(false);
 		
 		determineFood();
+		animation.add("walk", [1, 2, 3, 4, 5, 6, 7, 8], 5, true);
+		animation.add("run", [1, 2, 3, 4, 5, 6, 7, 8], 10, true);
+		animation.add("slow", [1, 2, 3, 4, 5, 6, 7, 8], 3, true);
+		animation.add("hit", [3], 10, true);
+		animation.play("walk");
+		
+		setFacingFlip(FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.RIGHT, false, false);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -77,6 +86,7 @@ class Person extends LevelObject implements Carrier
 				state = NEUTRAL;
 				velocity.x -= walkSpeed;
 				dir = LEFT;
+				facing = FlxObject.LEFT;
 			}
 			
 			if (state == ANGRY || state == HIT){
@@ -85,6 +95,7 @@ class Person extends LevelObject implements Carrier
 					velocity.y = 0;
 					acceleration.y = 0;
 					dir = RIGHT;
+					facing = FlxObject.RIGHT;
 				}
 			}
 			
@@ -101,7 +112,7 @@ class Person extends LevelObject implements Carrier
 	}
 
 	override public function graphicFilename():String{
-		return "assets/images/person.png";
+		return "assets/images/PersonTemplate.png";
 	}
 	
 	override public function getWidth():Int{
@@ -138,6 +149,7 @@ class Person extends LevelObject implements Carrier
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
 				this.state = ANGRY;
 				this.dir = RIGHT;
+				facing = FlxObject.RIGHT;
 				velocity.x = LevelManager.screenSpeed + this.runSpeed;
 				
 				new FlxTimer().start(rockPeriod - shockTime, this.throwRock, 1);
@@ -158,6 +170,8 @@ class Person extends LevelObject implements Carrier
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
 				this.state = DEPRESSED;
 				this.dir = LEFT;
+				facing = FlxObject.LEFT;
+				
 				velocity.x = LevelManager.screenSpeed - this.sadSpeed;
 			}, 1);
 		}
@@ -191,9 +205,11 @@ class Person extends LevelObject implements Carrier
 			if (_person.dir == LEFT){
 				_person.velocity.x += _person.walkSpeed;
 				_person.dir = RIGHT;
+				_person.facing = FlxObject.RIGHT;
 			}else if (_person.dir == RIGHT){
 				_person.velocity.x -= _person.walkSpeed;
 				_person.dir = LEFT;
+				_person.facing = FlxObject.LEFT;
 			}
 		}
 
@@ -213,9 +229,11 @@ class Person extends LevelObject implements Carrier
 			if (_person.dir == LEFT){
 				_person.velocity.x += _person.sadSpeed;
 				_person.dir = RIGHT;
+				_person.facing = FlxObject.RIGHT;
 			}else if (_person.dir == RIGHT){
 				_person.velocity.x -= _person.sadSpeed;
 				_person.dir = LEFT;
+				_person.facing = FlxObject.LEFT;
 			}
 		}
 	}
