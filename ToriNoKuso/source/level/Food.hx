@@ -39,7 +39,7 @@ class Food extends LevelObject
 		super(X, Y, SimpleGraphic, initSpeed);
 		
 		for(i in FOODS){
-			animation.add(Std.string(FOODS[i]), [i], false);
+			animation.add(Std.string(FOODS[i]), [i], 1, false);
 		}
 		animation.play(Std.string(foodType));
 	}
@@ -96,6 +96,12 @@ class Food extends LevelObject
 			else{
 				this.kill();
 			}
+			
+			if (carrier != null){
+				carrier.foodTaken();
+				carrier = null;
+			}
+
 		}
 	
 	}

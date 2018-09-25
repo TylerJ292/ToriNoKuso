@@ -79,4 +79,11 @@ class Bird extends FlxSprite implements Carrier{
 	public function getCarryY():Float{
 		return -4;
 	}
+	
+	/**
+	 * function called if bird's food is ever taken (which it is not)
+	 */
+	public function foodTaken():Void{
+		return;
+	}
 }
