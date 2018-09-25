@@ -85,7 +85,7 @@ class Squirrel extends FlxSprite
 		
 	}
 
-	
+
 	public function checkdead():Void
 	{
 		if (this.x < -20 || this.y < -50 || this.y > 680)

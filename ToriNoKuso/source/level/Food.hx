@@ -21,6 +21,7 @@ class Food extends LevelObject
 	public var foodType:Int;
 	public var plate:Bool;
 	public var carrier:Carrier = null;	//person carrying the food, null for none
+
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float, ?_carrier:Carrier, ?_foodType = RANDOM_FOOD, ?_plated = true) 
 	{
@@ -83,6 +84,7 @@ class Food extends LevelObject
 		if (foodType != EMPTY_PLATE && carrier != _bird){
 			
 			//TODO: increase bird ammo
+			_bird.ConsumeFood();
 			
 			var _food = new Food(_bird.x + _bird.getCarryX(), _bird.y + _bird.getCarryY(), LevelManager.screenSpeed, _bird, this.foodType, false);
 			new FlxTimer().start(1, function(_t:FlxTimer){

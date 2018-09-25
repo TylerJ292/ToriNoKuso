@@ -18,7 +18,9 @@ class PlayState extends FlxState
 	public var _player:Bird;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
 	public var _Ammogroup:FlxTypedGroup<Ammo>;
+	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();
 	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
+	
 	var _boss:Boss;
 	var bossPattern:Int = 0;
 	var bossSpawned:Bool = false;
@@ -29,7 +31,8 @@ class PlayState extends FlxState
 	 var sqTimer:FlxTimer;
 	 var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
-
+	public var trackHP:Float = 0;
+	
 	override public function create():Void
 	{
     level.LevelManager.state = this;
@@ -39,15 +42,15 @@ class PlayState extends FlxState
 		new FlxTimer().start(70, SQIncreaseDifficulty, 1);
 		new FlxTimer().start(130, SQIncreaseDifficulty, 1);
 		new FlxTimer().start(180, spawnBoss, 1);
-    
+   
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
 	_Ammogroup = new FlxTypedGroup<Ammo>(0);
-
-		_player = new Bird(50,50);
-
+		_player = new Bird(50, 50);
+		
 		add(_player);
-    
+		 trackHP = _player.health;
+		convertArrayToHealth(_player.hpbarList);
 		super.create();
 		//trace(FlxG.width, FlxG.height);
 
@@ -68,12 +71,18 @@ class PlayState extends FlxState
 			}
 		}
 		level.LevelManager.update(elapsed);
+		
 		for (members in _sqgroup)
 		{
 			members.checkdead();
 			
 		}
 			FlxG.overlap(_Ammogroup, _sqgroup, sqgotHit);
+			if (trackHP != _player.health)
+			{
+				convertArrayToHealth(_player.hpbarList);
+			}
+			
 	}
 
 	public function spawnBoss(Timer:FlxTimer):Void{
@@ -153,6 +162,10 @@ class PlayState extends FlxState
 		add(_poop);
 		new FlxTimer().start(.5, shootreset, 1);
 		_Ammogroup.add(_poop);
+		if(_player.ammo > 0){
+		_player.ammo -= 1;
+		trace(_player.ammo);
+		}
 		}
 	}
 	public function shootreset(Timer:FlxTimer):Void{
@@ -197,6 +210,7 @@ class PlayState extends FlxState
 	public function collisionCheck(){
 		if(FlxG.overlap(_player, _sqgroup)) {
 			_player.healthTracker();
+			
 		}
 		// Need to make a poop group
 		/* if(FlxG.overlap(_boss, _poopGroup) && !_boss.grounded){
@@ -207,4 +221,19 @@ class PlayState extends FlxState
 		}
 	}
 	
+	public function convertArrayToHealth(HPArray:Array<Int>)
+	{
+		trackHP = _player.health;
+		_HPgroup.clear();
+		var num:Int = 0;
+		for (i in HPArray)
+		{
+			var _heart:Heart = new Heart( 40 * (num),0, i);
+			num += 1;
+			add(_heart);
+			_HPgroup.add(_heart);
+			
+		}
+		
+	}
 }
