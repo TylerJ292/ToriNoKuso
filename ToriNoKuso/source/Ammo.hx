@@ -19,4 +19,10 @@ class Ammo extends FlxSprite
 		scale.set(3, 3);
 	}
 	
+	public function checkdead(){
+		if ( this.y > 680)
+		{
+			destroy();
+		}
+	}
 }

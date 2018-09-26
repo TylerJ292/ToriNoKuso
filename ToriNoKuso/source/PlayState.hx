@@ -87,6 +87,11 @@ class PlayState extends FlxState
 			members.checkdead();
 			
 		}
+		for (members in _Ammogroup)
+		{
+			members.checkdead();
+			
+		}
 			FlxG.overlap(_Ammogroup, _sqgroup, sqgotHit);
 			if (trackHP != _player.health)
 			{
@@ -255,6 +260,10 @@ class PlayState extends FlxState
 	{
 		trackHP = _player.health;
 		_HPgroup.clear();
+		for (i in _HPgroup)
+		{
+			i.destroy();
+		}
 		var num:Int = 0;
 		for (i in HPArray)
 		{
