@@ -45,7 +45,7 @@ override public function create():Void
 		_end.loadGraphic("assets/images/ReturnHome.png", true, 32, 64);	
 		_end.animation.add("BirdWin", [0, 1], 10, true);
 		_end.animation.play("BirdWin");
-		_end.velocity.x = -15;
+		_end.velocity.x = -20;
 		add(_end);
 		new FlxTimer().start(10, EndtheGame, 1);
 		super.create();
