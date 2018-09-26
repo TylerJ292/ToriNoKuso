@@ -5,6 +5,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.math.FlxAngle;
+import flixel.util.FlxTimer;
 
 class Boss extends FlxSprite
 {
@@ -17,25 +18,35 @@ class Boss extends FlxSprite
 	public var crapCap:Int = 3;			// Amount of bird poop needed to ground the fridge
 	public var directedCharge:Bool = false;
 	public var grounded:Bool = false;
+	public var invincible:Bool = false;
 	public var hp:Int = 6;
 	
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
-		loadGraphic("assets/images/32red.png");
+		loadGraphic("assets/images/Squirrel King.png", true, 32, 64);
+		animation.add("bossFly", [0, 1], 9, true);
+		animation.play("bossFly");
+		scale.set(1.5, 1.5);
+		updateHitbox();
 	}
 	
-	public function drop(){
+	public function drop(player:Bird){
 		crapCounter++;
+		invincible = true;
+		new FlxTimer().start(.25, iFrames, 1);
 		if (crapCounter >= crapCap){
 			grounded = true;
 			crapCounter = 0;
+			new FlxTimer().start(6, liftOff, 1);
 		}
 	}
 	
 	public function damage(){
 		hp--;
+		invincible = true;
+		new FlxTimer().start(.5, iFrames, 1);
 		if (hp == 4){
 			bossSpd += 50;
 		}
@@ -44,8 +55,19 @@ class Boss extends FlxSprite
 		}
 		else if (hp == 0){
 			trace("You WIN!");
+			return false;
 			this.destroy();
 		}
+		return true;
+	}
+	
+	public function iFrames(Timer:FlxTimer):Void{
+		invincible = false;
+	}
+	
+	public function liftOff(Timer:FlxTimer):Void{
+		trace("liftOff");
+		grounded = false;
 	}
 	
 	public function bossMove(pattern:Int, angle:Float = 42, player:Bird){
@@ -67,7 +89,5 @@ class Boss extends FlxSprite
       velocity.set((bossSpd + chargeBoost) * FlxMath.fastCos(angle), (bossSpd + chargeBoost) * FlxMath.fastSin(angle));
 			directedCharge = true;
 		}
-		
 	}
-	
 }
