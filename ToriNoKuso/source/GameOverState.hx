@@ -24,9 +24,12 @@ class GameOverState extends FlxState
 		_dead.screenCenter();
 		_dead.scale.set(2, 2);
 		_dead.y -= 30;
-		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 50);
+		var sign:FlxText = new flixel.text.FlxText(400, 7, 0, "GAME OVER", 60);
+		sign.screenCenter();
+		sign.y -= 180;
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 45);
 		disscore.screenCenter();
-		disscore.y -= 150;
+		disscore.y -= 110;
 		_playagainButton = new FlxButton(20, 20, "", playagain);
 		_playagainButton.loadGraphic("assets/images/Playagainbutton.png");
 		_playagainButton.screenCenter();
@@ -44,6 +47,7 @@ class GameOverState extends FlxState
 		add(_quitButton);
 		add(disscore);
 		add(_dead);
+		add(sign);
 		super.create();
 
 		#if flash
