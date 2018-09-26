@@ -223,14 +223,14 @@ class PlayState extends FlxState
 				_player.y += playerSpd;
 			}
 		}
-		if(FlxG.keys.pressed.X) {
+		if(FlxG.keys.pressed.X || FlxG.keys.pressed.P) {
 			dive = true;
 		}
 	}
 
 
 	public function Shoot(){
-		if (FlxG.keys.pressed.Z && _player.ammo > 0 && canShoot == true) {
+		if ((FlxG.keys.pressed.Z || FlxG.keys.pressed.O) && _player.ammo > 0 && canShoot == true) {
 
 		canShoot = false;
 		var _poop:Ammo = new Ammo(_player.x, _player.y);

@@ -24,7 +24,7 @@ class GameOverState extends FlxState
 		_dead.screenCenter();
 		_dead.scale.set(2, 2);
 		_dead.y -= 30;
-		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 60);
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 50);
 		disscore.screenCenter();
 		disscore.y -= 150;
 		_playagainButton = new FlxButton(20, 20, "", playagain);

@@ -1,22 +1,34 @@
 package;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.FlxG; 
 import level.LevelManager;
 import flash.system.System;
-
+import flixel.text.FlxText;
 
 /**
  * ...
  * @author ...
  */
-class WinState extends FlxState
+class GameOverState extends FlxState
 {
 	var _playagainButton : FlxButton;
 	var _menuButton: FlxButton;
 	var _quitButton: FlxButton;
+	var _win: FlxSprite =  new FlxSprite(0,0);
 	override public function create():Void
 	{
+		var score:Float = LevelManager.state.trackSCORE;
+		_win.loadGraphic("assets/images/ReturnHome.png", true, 32, 64);	
+		_win.animation.add("BirdWin", [0, 1, 2, 3, 4], 10, true);
+		_win.animation.play("BirdWin");
+		_win.screenCenter();
+		_win.scale.set(2, 2);
+		_win.y -= 30;
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 50);
+		disscore.screenCenter();
+		disscore.y -= 150;
 		_playagainButton = new FlxButton(20, 20, "", playagain);
 		_playagainButton.loadGraphic("assets/images/Playagainbutton.png");
 		_playagainButton.screenCenter();
@@ -32,6 +44,8 @@ class WinState extends FlxState
 		add(_playagainButton);
 		add(_menuButton);
 		add(_quitButton);
+		add(disscore);
+		add(_win);
 		super.create();
 	}
 	
