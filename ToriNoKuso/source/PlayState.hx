@@ -75,7 +75,7 @@ class PlayState extends FlxState
 		ammoCount[0] = disammo;
 		trackCount[0] = disscore;
 		super.create();
-		//trace(FlxG.width, FlxG.height);
+		trace(FlxG.width, FlxG.height);
 
 	}
 
