@@ -11,6 +11,7 @@ import flixel.util.FlxCollision;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import level.LevelManager;
+import flixel.math.FlxMath;
 
 class PlayState extends FlxState
 {
@@ -25,7 +26,7 @@ class PlayState extends FlxState
 	public var bossAngle:Float;
 	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
-	 var sqTimer:FlxTimer;
+	var sqTimer:FlxTimer;
 	public var dive:Bool = false;
 
 	override public function create():Void
@@ -33,12 +34,12 @@ class PlayState extends FlxState
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
 	//SquirrelSpawn System created
-    sqTimer = new FlxTimer().start(2, spawnSQ, 0);
-		new FlxTimer().start(180, spawnBoss, 1);
+    sqTimer = new FlxTimer().start(2, spawnSQ, 1);
+		new FlxTimer().start(1, spawnBoss, 1);
     
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
-	_Ammogroup = new FlxTypedGroup<Ammo>(0);
+		_Ammogroup = new FlxTypedGroup<Ammo>(0);
 
 		_player = new Bird(50,50);
 
@@ -55,7 +56,7 @@ class PlayState extends FlxState
 		bossMovement();
 		super.update(elapsed);
     playerMovement();
-	Shoot();
+		Shoot();
 		collisionCheck();
 		if(dive){
 			_player.diving();
@@ -97,11 +98,28 @@ class PlayState extends FlxState
 				_boss.bossDirY = -_boss.bossDirY;
 				_boss.y += _boss.bossDirY;
 			}
-			
+			if(_boss.directedCharge){
+				if(_boss.y <= 32){
+					_boss.velocity.set(_boss.velocity.x, -_boss.velocity.y);
+				}
+				else if(_boss.y -32 >= FlxG.height - 200){
+					_boss.velocity.set(_boss.velocity.x, -FlxMath.absInt(Std.int(_boss.velocity.y)));
+				}
+			}
 			_boss.bossMove(bossPattern, bossAngle, _player);
 		}
-		else if(bossSpawned && _boss.grounded && _boss.y >= 32){
-			_boss.velocity.set(_boss.bossDirX * 100, 50);
+		else if(bossSpawned && _boss.grounded && _boss.y <= FlxG.height - 64){
+			if(_boss.x < 0 || _boss.x > FlxG.width - 32){
+				_boss.velocity.set(_boss.bossDirX * 50, 100);
+				bossPattern = 5;
+			}
+			else{
+				_boss.velocity.set(0, 100);
+				bossPattern = 5;
+			}
+		}
+		else if(bossSpawned){
+			_boss.velocity.set(0, 0);
 		}
 	}
 
@@ -123,7 +141,6 @@ class PlayState extends FlxState
 			if(_player.y > 0){
 				_player.y -= 2;
 			}
-			
 		}
 		//288
 		if (FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
@@ -134,10 +151,6 @@ class PlayState extends FlxState
 		if(FlxG.keys.pressed.X) {
 			dive = true;
 		}
-		
-	
-		
-	
 	}
 
 	
@@ -182,15 +195,14 @@ class PlayState extends FlxState
 	//need to add delay so that there is a couple seconds of "invincibility" after
 	//the first instance of a collision
 	public function collisionCheck(){
-		if(FlxG.overlap(_player, _sqgroup)) {
+		if(FlxG.overlap(_player, _sqgroup) || (FlxG.overlap(_player, _boss) && !_boss.grounded)) {
 			_player.healthTracker();
 		}
-		// Need to make a poop group
-		/* if(FlxG.overlap(_boss, _poopGroup) && !_boss.grounded){
-			_boss.drop();
-		} */
-		if(bossSpawned && _boss.grounded && FlxG.overlap(_player, _boss)){
-			_boss.damage();
+		if(bossSpawned && FlxG.overlap(_boss, _Ammogroup) && !_boss.grounded && !_boss.invincible){
+			_boss.drop(_player);
+		}
+		if(bossSpawned && _boss.grounded && FlxG.overlap(_player, _boss) && !_boss.invincible){
+			bossSpawned = _boss.damage();
 		}
 	}
 	

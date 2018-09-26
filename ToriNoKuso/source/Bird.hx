@@ -63,6 +63,7 @@ class Bird extends FlxSprite implements Carrier{
 				}
 				else {
 					velocity.set(0, 250);
+					this.angle = 70.0;
 				}
 			}
 			else if(pullUp){
@@ -72,6 +73,7 @@ class Bird extends FlxSprite implements Carrier{
 				}
 				else {
 					velocity.set(0, -250);
+					this.angle = -60.0;
 				}
 			}
 			if(this.y >= FlxG.height - 32){
