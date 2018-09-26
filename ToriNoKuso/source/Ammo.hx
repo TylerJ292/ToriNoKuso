@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.math.FlxPoint;
 /**
  * ...
  * @author ...
@@ -15,6 +16,9 @@ class Ammo extends FlxSprite
 		loadGraphic("assets/images/Kuso.png", true, 32, 32);
 		animation.add("PoopDrop", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 10, true);
 		animation.play("PoopDrop");
+		this.width = 16;
+		this.height = 16;
+		this.offset = new FlxPoint(8, 8);
 		velocity.set(0, 300);
 		scale.set(3, 3);
 	}
