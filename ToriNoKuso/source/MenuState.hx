@@ -15,6 +15,7 @@ class MenuState extends FlxState
 	var _quitButton: FlxButton;
 	override public function create():Void
 	{
+
 		_playButton = new FlxButton(20, 20, "", clickPlay);
 		_playButton.loadGraphic("assets/images/Playbutton.png");
 		_playButton.screenCenter();
@@ -26,19 +27,31 @@ class MenuState extends FlxState
 		add(_playButton);
 		add(_quitButton);
 		super.create();
+
+		#if flash
+			FlxG.sound.playMusic(AssetPaths.menu_music__mp3);
+		#else
+			FlxG.sound.playMusic(AssetPaths.menu_music__wav);
+		#end
+
+		// #if flash
+		// 	FlxG.sound.playMusic("assets/music/menu_music__mp3");
+		// #else
+		// 	FlxG.sound.playMusic("assets/music/menu_music__wav");
+		// #end
 	}
-	
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 	}
-	
+
 	function clickPlay():Void
 	{
 		LevelManager.restart();
 		FlxG.switchState(new PlayState());
 	}
-	
+
 	function quit():Void
 	{
 		System.exit(0);

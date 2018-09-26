@@ -21,7 +21,7 @@ class PlayState extends FlxState
 	public var trackSCORE:Int = 0;
 	public var trackscore2:Int = 0;
 	public var trackCount:Array<FlxText> = new Array<FlxText>();
-	
+
 	public var _player:Bird;
 	public var playerSpd:Int = 3;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
@@ -29,7 +29,7 @@ class PlayState extends FlxState
 	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();
 	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
 	public var ammoCount:Array<FlxText> = new Array<FlxText>();
-	
+
 	var _boss:Boss;
 	var bossPattern:Int = 0;
 	var bossSpawned:Bool = false;
@@ -42,24 +42,25 @@ class PlayState extends FlxState
 	public var dive:Bool = false;
 	public var trackHP:Float = 0;
 	public var trackAMMO:Int = 0;
-	
-	
+
+
 	override public function create():Void
 	{
-		
-		
+
+
 		FlxG.fullscreen = true;
     level.LevelManager.state = this;
     FlxG.camera.bgColor = FlxColor.BLACK;
 	FlxG.fixedTimestep = false;
-	
+
 	//SquirrelSpawn System created
 		new FlxTimer().start(10, spawnSpawnSQ, 1);
 		new FlxTimer().start(70, SQIncreaseDifficulty, 1);
 		new FlxTimer().start(130, SQIncreaseDifficulty, 1);
 		new FlxTimer().start(180, spawnBoss, 1);
-   
+
     level.LevelManager.startLevelGen();
+		FlxG.sound.playMusic("assets/music/background_music");
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
 		_Ammogroup = new FlxTypedGroup<Ammo>(0);
 		_player = new Bird(50, 50);
@@ -77,13 +78,18 @@ class PlayState extends FlxState
 		ammoCount[0] = disammo;
 		trackCount[0] = disscore;
 		super.create();
+		#if flash
+			FlxG.sound.playMusic(AssetPaths.background_music__mp3);
+		#else
+			FlxG.sound.playMusic(AssetPaths.background_music__wav);
+		#end
 		trace(FlxG.width, FlxG.height);
 
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		
+
 		bossMovement();
 		super.update(elapsed);
 		if(_player.dead == false){
@@ -100,16 +106,16 @@ class PlayState extends FlxState
 		}
 		}
 		level.LevelManager.update(elapsed);
-		
+
 		for (members in _sqgroup)
 		{
 			members.checkdead();
-			
+
 		}
 		for (members in _Ammogroup)
 		{
 			members.checkdead();
-			
+
 		}
 			FlxG.overlap(_Ammogroup, _sqgroup, sqgotHit);
 			if (trackHP != _player.health)
@@ -140,21 +146,26 @@ class PlayState extends FlxState
 		bossSpawned = true;
 		_boss = new Boss(FlxG.width -50, FlxG.height/3);
 		add(_boss);
+		#if flash
+			FlxG.sound.playMusic(AssetPaths.boss_fight_music__mp3);
+		#else
+			FlxG.sound.playMusic(AssetPaths.boss_fight_music__wav);
+		#end
 		// sqTimer.destroy();
 	}
-	
+
 	public function bossMovement(){
 		if (bossSpawned && !_boss.grounded){
 			if (_boss.x <= 0 || _boss.x +32 >= FlxG.width){
 				_boss.directedCharge = false;
-				
+
 				_boss.bossDirX = -_boss.bossDirX;
 				_boss.x += _boss.bossDirX;
 				_boss.flipX = !_boss.flipX;
-				
+
 				var _ran:FlxRandom = new FlxRandom();
 				bossAngle = Std.int(_ran.float(40, 70));
-				
+
 				var _ran:FlxRandom = new FlxRandom();
 				bossPattern = Std.int(_ran.float(0, 5));
 			}
@@ -193,13 +204,13 @@ class PlayState extends FlxState
 			if(_player.x > 18){
 				_player.x -= playerSpd;
 			}
-			
+
 		}
 		if (FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
 			if(_player.x < FlxG.width - 48){
 				_player.x += playerSpd;
 			}
-			
+
 		}
 		if (FlxG.keys.pressed.UP || FlxG.keys.pressed.W) {
 			if(_player.y > 0){
@@ -217,10 +228,10 @@ class PlayState extends FlxState
 		}
 	}
 
-	
+
 	public function Shoot(){
 		if (FlxG.keys.pressed.Z && _player.ammo > 0 && canShoot == true) {
-	
+
 		canShoot = false;
 		var _poop:Ammo = new Ammo(_player.x, _player.y);
 		add(_poop);
@@ -228,7 +239,7 @@ class PlayState extends FlxState
 		_Ammogroup.add(_poop);
 		if(_player.ammo > 0){
 		_player.ammo -= 1;
-		
+
 		}
 		}
 	}
@@ -241,13 +252,13 @@ class PlayState extends FlxState
 		poop.destroy();
 		trackSCORE += 500;
 	}
-	
+
 	public function spawnSQ(Timer:FlxTimer):Void
 	{
 
 		var _ran:FlxRandom = new FlxRandom();
 		var _rSpawn:Int = Std.int(_ran.float(1 + sqTimeNum, 3 + sqTimeNum));
-		
+
 		for (i in 0..._rSpawn )
 		{
 			var _rNum:Int = Std.int(_ran.float(2, 10));
@@ -257,17 +268,17 @@ class PlayState extends FlxState
 			add(_sq);
 			_sqgroup.add(_sq);
 			_sq.delayMove(_player, _rNum3);
-			
+
 		}
 	}
-	
+
 	public function spawnSpawnSQ(Timer:FlxTimer):Void{
 		sqTimer = new FlxTimer().start(2, spawnSQ, 0);
-		
+
 	}
 	public function SQIncreaseDifficulty(Timer:FlxTimer):Void{
 		sqTimeNum += 1;
-		
+
 	}
 	//need to add delay so that there is a couple seconds of "invincibility" after
 	//the first instance of a collision
@@ -283,13 +294,13 @@ class PlayState extends FlxState
 		}
 		if (bossSpawned && FlxG.overlap(_boss, _Ammogroup) && !_boss.grounded && !_boss.invincible){
 			_boss.drop(_player);
-			
+
 		}
 		if(bossSpawned && _boss.grounded && FlxG.overlap(_player, _boss) && !_boss.invincible){
 			bossSpawned = _boss.damage();
 		}
 	}
-	
+
 	public function convertArrayToHealth(HPArray:Array<Int>)
 	{
 		trackHP = _player.health;
@@ -305,11 +316,10 @@ class PlayState extends FlxState
 			num += 1;
 			add(_heart);
 			_HPgroup.add(_heart);
-			
+
 		}
-		
-		
+
+
 	}
 
 }
-

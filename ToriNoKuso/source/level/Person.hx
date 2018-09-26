@@ -30,7 +30,7 @@ enum Direction {
 	LEFT;
 	RIGHT;
 }
- 
+
 class Person extends LevelObject implements Carrier
 {
 	//AI VALUES
@@ -38,17 +38,17 @@ class Person extends LevelObject implements Carrier
 	public var dir:Direction = NONE;
 
 	public var startY:Float;
-	
+
 	public var food:Food = null;// reference to food object person is carrying
 	public var foodRightX:Float = 0;// X coord of food, relative to when facing right
 	public var foodLeftX:Float = -16;// X coord of food, relative to when facing left
 	public var foodY:Float = 18;// Y coord of food, relative
 	public var foodChance:Float = 0.50;//percentage chance of carrying food
-	
+
 	public var throwRange:Float = 3;	//tries to be [0, throwRange] units behind the player when throwing rocks, init value used for standardization
 	public var throwRangeMin:Float = 1; //randomly calculate throwRange to be between min and max
-	public var throwRangeMax:Float = 5; 
-	
+	public var throwRangeMax:Float = 5;
+
 	//PHYSICS VALUES
 	//these variables are not static or constants so that children may modify them for custom behavior
 	public var walkSpeed:Float = 30; //speed to casually walk at
@@ -59,17 +59,17 @@ class Person extends LevelObject implements Carrier
 	public var rockPeriod:Float = 2.5; //amount of time (seconds) between rock throws
 	public var throwSpeedY:Float = 350;
 	public var throwSpeedX:Float = 130;//if throwRange == init. Modified based on how throwRange chnges
-	
+
 	public var jumpSpeed:Float = 150;//when angry and reached a stopping point, will jump up and down at this speed
 	public var gravity:Float = 200;//gravity acceleration: only used when jumping, otherwise irrelevant
-	
+
 	//ANIMATION VALUES
 	//frame rate, etc
 	public var walkRate = 4;
 	public var runRateSlow = 6;
 	public var runRateFast = 8;
 	public var slowRate = 2;
-	
+
 	public var emoticon:AngerMark = null;
 
 	override public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float)
@@ -79,17 +79,17 @@ class Person extends LevelObject implements Carrier
 		LevelManager.People.add(this);
 
 		set_immovable(false);
-		
+
 		determineFood();
 		refreshAnimation();
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
-		
+
 		//so that not everyone is the same
 		var _rand = new FlxRandom().float(throwRangeMin, throwRangeMax);
 		throwSpeedX *= (_rand / throwRange);
 		throwRange = _rand;
-		
+
 		startY = Y;
 	}
 
@@ -98,16 +98,16 @@ class Person extends LevelObject implements Carrier
 	 */
 	public function refreshAnimation():Void{
 		loadGraphic(graphicFilename(), true, getWidth(), getHeight());
-		
+
 		animation.add("walk", [1, 2, 3, 4, 5, 6, 7, 8], walkRate, true);
 		animation.add("run", [1, 2, 3, 4, 5, 6, 7, 8], runRateFast, true);
 		animation.add("slow", [1, 2, 3, 4, 5, 6, 7, 8], slowRate, true);
 		animation.add("hit", [3], 1, true);
-		
+
 		width = 16;
 		this.offset = new FlxPoint(8, 0);
 	}
-	
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
@@ -122,7 +122,7 @@ class Person extends LevelObject implements Carrier
 				dir = LEFT;
 				facing = FlxObject.LEFT;
 			}
-			
+
 			if (state == ANGRY || state == HIT){
 				if (dir == NONE && y > startY){
 					y = startY;
@@ -132,7 +132,7 @@ class Person extends LevelObject implements Carrier
 					facing = FlxObject.RIGHT;
 				}
 			}
-			
+
 			if (state == ANGRY){
 				//if in a sweet spot from player
 				if (LevelManager.state._player.x < this.x + (LevelManager.unit * throwRange) ){
@@ -164,13 +164,13 @@ class Person extends LevelObject implements Carrier
 					}
 				}
 			}
-			
+
 			if (emoticon != null){
 				if (facing == FlxObject.RIGHT) emoticon.x = x-8;
 				else if(facing == FlxObject.LEFT) emoticon.x = x+8;
 				emoticon.y = y;
 			}
-			
+
 			if (y > FlxG.height)
 				y = startY;
 		}
@@ -180,34 +180,34 @@ class Person extends LevelObject implements Carrier
 		if (food == null) return "assets/images/PersonTemplate.png";
 		else return "assets/images/PersonHoldTemplate.png";
 	}
-	
+
 	override public function getWidth():Int{
 		return 32;
 	}
-	
+
 	override public function getHeight():Int{
 		return 64;
 	}
-	
+
 	//since this returns people, people are rendered over tables, ground, etc.
 	override public function getOrderingGroup():FlxGroup{
 		return cast LevelManager.People;
 	}
-	
+
 
 	/**
 	 * Called in constructor. Use this to determine if a person is carrying food.
 	 * If a person is carrying food, default behavior is to randomly select the type.
 	 */
 	function determineFood():Void{
-		
+
 		var _ran:FlxRandom = new FlxRandom();
 		if(_ran.float(0,1) <= foodChance){
 			food = new Food(x + getCarryX(), y + getCarryY(), LevelManager.screenSpeed, this, Food.RANDOM_FOOD, false);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Called when this person is hit with a dive (by _obj).
 	 *
@@ -218,24 +218,29 @@ class Person extends LevelObject implements Carrier
 			velocity.x = LevelManager.screenSpeed;
 			this.state = HIT;
 			animation.play("hit");
-			
+
 			if (facing == FlxObject.RIGHT) emoticon = new AngerMark(x-8, y);
 			else if(facing == FlxObject.LEFT) emoticon = new AngerMark(x+8, y);
 			LevelManager.state.add(emoticon);
-			
+
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
 				this.state = ANGRY;
 				refreshAnimation();
+				#if flash
+					FlxG.sound.play(AssetPaths.angry_man__mp3);
+				#else
+					FlxG.sound.play(AssetPaths.angry_man__wav);
+				#end
 				animation.play("run");
 				this.dir = RIGHT;
 				facing = FlxObject.RIGHT;
 				velocity.x = LevelManager.screenSpeed + this.runSpeed;
-				
+
 				new FlxTimer().start(rockPeriod - shockTime, this.throwRock, 1);
 			}, 1);
 		}
 	}
-	
+
 	/**
 	 * Called when this person is hit with ammo.
 	 *
@@ -248,7 +253,7 @@ class Person extends LevelObject implements Carrier
 			animation.play("hit");
 			LevelManager.state.trackSCORE += 500;
 			//should they drop any food they are carrying?
-			
+
 			if (facing == FlxObject.RIGHT) emoticon = new DepressionMark(x-8, y);
 			else if(facing == FlxObject.LEFT) emoticon = new DepressionMark(x+8, y);
 			LevelManager.state.add(emoticon);
@@ -258,11 +263,11 @@ class Person extends LevelObject implements Carrier
 				animation.play("slow");
 				this.dir = LEFT;
 				facing = FlxObject.LEFT;
-				
+
 				velocity.x = LevelManager.screenSpeed - this.sadSpeed;
 			}, 1);
 		}
-		
+
 		_ammo.kill();
 	}
 
@@ -274,20 +279,24 @@ class Person extends LevelObject implements Carrier
 		if (!this.alive || state != ANGRY) _t.cancel();
 		else{
 			var _rock:Rock = new Rock(this.x, this.y);
-			
+
 			var _ran:FlxRandom = new FlxRandom();
-			
+
 			var _dirMult:Int = 1;
 			if (facing == FlxObject.LEFT) _dirMult = -1;
-			
+
 			_rock.velocity.x = (throwSpeedX * _ran.float(0.8,1.2) * _dirMult) + LevelManager.screenSpeed;
 			_rock.velocity.y = -throwSpeedY * _ran.float(0.8, 1.2);
-			
+
 			trace(facing, _dirMult, _rock.velocity.x);
-			
+
 			_t.start(rockPeriod * _ran.float(0.8, 1.2), this.throwRock, 1);
-			
-			FlxG.sound.play("assets/sounds/throw.wav");
+
+			#if flash
+				FlxG.sound.play(AssetPaths.throw2__mp3);
+			#else
+				FlxG.sound.play(AssetPaths.throw2__wav);
+			#end
 		}
 	}
 
@@ -315,7 +324,7 @@ class Person extends LevelObject implements Carrier
 				_person.velocity.y = -_person.jumpSpeed;
 			}
 		}
-		
+
 		if (_person.state == DEPRESSED){
 			if (_person.dir == LEFT){
 				_person.velocity.x += _person.sadSpeed;
@@ -328,30 +337,30 @@ class Person extends LevelObject implements Carrier
 			}
 		}
 	}
-	
+
 	//in the future these should change depending on animation, maybe
 	public function getCarryX(){
 		if (facing == FlxObject.LEFT) return foodLeftX;
 		else return foodRightX;
 	}
-	
+
 	public function getCarryY(){
 		return foodY;
 	}
-	
+
 	/**
 	 * Called from within food, when food is taken
-	 * 
+	 *
 	 * Does not actually contain logic for food, only for
 	 * the carrier's reaction
-	 * 
+	 *
 	 * In other words, don't delete food or anything, that
 	 * is taken care of in Food.takeFood()
 	 */
 	public function foodTaken():Void{
 		this.food = null;
 		refreshAnimation();
-		
+
 		if (state != HIT || state != ANGRY){
 			//this ensures they still get react even if you dont collide with the person
 			this.onDiveAttack(LevelManager.state._player);

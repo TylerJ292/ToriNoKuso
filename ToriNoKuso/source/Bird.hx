@@ -10,7 +10,7 @@ import flixel.math.FlxPoint;
 class Bird extends FlxSprite implements Carrier{
 
 	public static inline var INVINCIBLE_TIME = 2;
-	
+
 	public var dive:Bool = false;
 	public var dead:Bool = false;
 	public var pullUp:Bool = false;
@@ -41,20 +41,25 @@ class Bird extends FlxSprite implements Carrier{
   public function healthTracker(dmg:Float) {
     if (health > 0 && invinc == false ) {
       health = health-dmg;
+			#if flash
+				FlxG.sound.play(AssetPaths.squirrel_hit__mp3);
+			#else
+				FlxG.sound.play(AssetPaths.squirrel_hit__wav);
+			#end
 	  invinc = true;
-	  new FlxTimer().start(INVINCIBLE_TIME, invincframe, 1); 
+	  new FlxTimer().start(INVINCIBLE_TIME, invincframe, 1);
 	  convertHPtoHeart(health);
 	  FlxFlicker.flicker(this, INVINCIBLE_TIME, 0.1);
     }
 	if( health <= 0 ){
 		dead = true;
-		
+
 		trace("Player died");
 		new FlxTimer().start(2, gameOverTrigger, 1);
 	}
     //game over, screen freezes and text appears
   }
-  
+
   public function gameOverTrigger(Timer:FlxTimer):Void{
 	  FlxG.switchState(new GameOverState());
   }
@@ -70,7 +75,7 @@ class Bird extends FlxSprite implements Carrier{
 		var reload:Int = 5;
 		while (ammo < 20)
 		{
-		
+
 			ammo += 1;
 			reload -= 1;
 			if (reload == 0)
@@ -82,7 +87,7 @@ class Bird extends FlxSprite implements Carrier{
   }
   public function invincframe(Timer:FlxTimer):Void{
 	  invinc = false;
-	  
+
   }
 
   public function diveForFood() {
@@ -134,12 +139,17 @@ class Bird extends FlxSprite implements Carrier{
 	public function getCarryX():Float{
 		return 8+4;
 	}
-	
+
 	public function diving(){
 		if(!dive){
 			dive = true;
 		}
 		if(dive){
+			#if flash
+				FlxG.sound.play(AssetPaths.dive__mp3);
+			#else
+				FlxG.sound.play(AssetPaths.dive__wav);
+			#end
 			if(!pullUp){
 				if(this.x < FlxG.width - 32){
 					velocity.set(100, 250);
@@ -174,7 +184,7 @@ class Bird extends FlxSprite implements Carrier{
 	public function getCarryY():Float{
 		return -4+14;
 	}
-	
+
 	/**
 	 * function called if bird's food is ever taken (which it is not)
 	 */
