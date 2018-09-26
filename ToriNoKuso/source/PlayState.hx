@@ -234,7 +234,7 @@ class PlayState extends FlxState
 		if (FlxG.keys.pressed.Q)
 		{
 	
-			FlxG.switchState(new WinState());
+			FlxG.switchState(new EndScene());
 		}
 	}
 
