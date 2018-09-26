@@ -2,7 +2,7 @@ package;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
-import flixel.FlxG; 
+import flixel.FlxG;
 import level.LevelManager;
 import flash.system.System;
 import flixel.text.FlxText;
@@ -45,25 +45,31 @@ class GameOverState extends FlxState
 		add(disscore);
 		add(_dead);
 		super.create();
+
+		#if flash
+			FlxG.sound.playMusic(AssetPaths.menu_music__mp3);
+		#else
+			FlxG.sound.playMusic(AssetPaths.menu_music__wav);
+		#end
 	}
-	
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 	}
-	
+
 	function playagain():Void
 	{
 		LevelManager.restart();
 		FlxG.switchState(new PlayState());
 	}
-	
+
 	function menu():Void
 	{
-		
+
 		FlxG.switchState(new MenuState());
 	}
-	
+
 	function quit():Void
 	{
 		System.exit(0);

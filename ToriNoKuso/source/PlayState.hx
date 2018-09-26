@@ -225,6 +225,11 @@ class PlayState extends FlxState
 		}
 		if(FlxG.keys.pressed.X || FlxG.keys.pressed.P) {
 			dive = true;
+			#if flash
+				FlxG.sound.play(AssetPaths.dive_fixed__mp3);
+			#else
+				FlxG.sound.play(AssetPaths.dive_fixed__wav);
+			#end
 		}
 	}
 
