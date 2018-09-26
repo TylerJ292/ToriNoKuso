@@ -69,6 +69,8 @@ class Person extends LevelObject implements Carrier
 	public var runRateSlow = 6;
 	public var runRateFast = 8;
 	public var slowRate = 2;
+	
+	public var emoticon:AngerMark = null;
 
 	override public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float)
 	{
@@ -133,7 +135,7 @@ class Person extends LevelObject implements Carrier
 			
 			if (state == ANGRY){
 				//if in a sweet spot from player
-				if (LevelManager.state._player.x > this.x && LevelManager.state._player.x < this.x + (LevelManager.unit * throwRange) ){
+				if (LevelManager.state._player.x < this.x + (LevelManager.unit * throwRange) ){
 					//this if needs to be separate from the other if due to else statement below, do not combine
 					if(animation.curAnim.frameRate != runRateSlow){
 						velocity.x = LevelManager.screenSpeed + walkSpeed;
@@ -151,7 +153,7 @@ class Person extends LevelObject implements Carrier
 						facing = FlxObject.RIGHT;
 					}
 				}
-				//if too far ahead of player
+				//if too far ahead of player (disabled, enable with LevelManager.state._player.x > this.x &&  in the first if)
 				else{
 					if(animation.curAnim.frameRate != 0){
 						velocity.x = LevelManager.screenSpeed;
@@ -161,6 +163,12 @@ class Person extends LevelObject implements Carrier
 						facing = FlxObject.LEFT;
 					}
 				}
+			}
+			
+			if (emoticon != null){
+				if (facing == FlxObject.RIGHT) emoticon.x = x-8;
+				else if(facing == FlxObject.LEFT) emoticon.x = x+8;
+				emoticon.y = y;
 			}
 			
 			if (y > FlxG.height)
@@ -210,7 +218,11 @@ class Person extends LevelObject implements Carrier
 			velocity.x = LevelManager.screenSpeed;
 			this.state = HIT;
 			animation.play("hit");
-
+			
+			if (facing == FlxObject.RIGHT) emoticon = new AngerMark(x-8, y);
+			else if(facing == FlxObject.LEFT) emoticon = new AngerMark(x+8, y);
+			LevelManager.state.add(emoticon);
+			
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
 				this.state = ANGRY;
 				refreshAnimation();
@@ -236,6 +248,10 @@ class Person extends LevelObject implements Carrier
 			animation.play("hit");
 			LevelManager.state.trackSCORE += 500;
 			//should they drop any food they are carrying?
+			
+			if (facing == FlxObject.RIGHT) emoticon = new DepressionMark(x-8, y);
+			else if(facing == FlxObject.LEFT) emoticon = new DepressionMark(x+8, y);
+			LevelManager.state.add(emoticon);
 
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
 				this.state = DEPRESSED;

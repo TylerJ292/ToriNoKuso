@@ -50,7 +50,7 @@ class PlayState extends FlxState
 		
 		FlxG.fullscreen = true;
     level.LevelManager.state = this;
-    FlxG.camera.bgColor = FlxColor.BLUE;
+    FlxG.camera.bgColor = FlxColor.BLACK;
 	FlxG.fixedTimestep = false;
 	
 	//SquirrelSpawn System created

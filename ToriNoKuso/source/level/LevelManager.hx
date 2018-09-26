@@ -7,6 +7,7 @@ import flixel.math.FlxRandom;
 import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 import haxe.Timer;
+import flixel.tile.FlxTilemap;
 
 /**
  * The LevelManager keeps track of backgrounds, people, abd obstacles created, and generates new obstacles.
@@ -61,6 +62,8 @@ class LevelManager
 		
 		BuildingHeight0 = new FlxRandom().int(BuildingHeightMin0, BuildingHeightMax0);
 		BuildingHeight1 = new FlxRandom().int(BuildingHeightMin1, BuildingHeightMax1);
+		
+		genSky();
 		
 		new FlxTimer().start(20, function(_t:FlxTimer){
 			stopChance -= .1;
@@ -140,13 +143,6 @@ class LevelManager
 			new StopSign(leftX, (segmentHeight - stopHeight) * unit, screenSpeed);
 		}	
 		
-		//table
-		if (_ran.float() <= 0.3)
-		{
-			new PicnicTable(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
-			new Food(leftX + unit*5, (segmentHeight - 3) * unit, screenSpeed, true);
-		}	
-		
 		//generate sidewalk
 		for ( i in 0...segmentWidth) {
 			
@@ -159,6 +155,12 @@ class LevelManager
 			}
 		}
 		
+		//table
+		if (_ran.float() <= 0.3)
+		{
+			new PicnicTable(leftX+unit*4, (segmentHeight-2.5) * unit, screenSpeed);
+			new Food(leftX + unit*5, (segmentHeight - 3.4) * unit, screenSpeed, true);
+		}	
 		
 		//people
 		for(i in 1..._ran.int(1,3)){
@@ -172,13 +174,13 @@ class LevelManager
 			
 		var _heightChange:Int = _ran.int(2, segmentWidth - 2);
 		//var _oldBuildingHeight:Int = BuildingHeight;
-		for ( i in 0...segmentWidth + 1) {
+		for ( i in 0...segmentWidth) {
 			
 			if (i == _heightChange){
 				BuildingHeight = _ran.int(BuildingHeightMin, BuildingHeightMax);
 			}
 			
-			for (j in 0...segmentHeight+1){
+			for (j in 0...segmentHeight){
 				if (j == BuildingHeight){
 					if (i == _heightChange-1){
 						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.RIGHT_TOP, _color);
@@ -241,5 +243,22 @@ class LevelManager
 		
 		//level
 		 screenSpeed = -50;
+	}
+	
+	static public function genSky():Void{
+		var _map:Array<Array<Int> > = new Array<Array<Int>>();
+		var _rand:FlxRandom = new FlxRandom();
+		for (i in 0...15){
+			_map[i] = new Array<Int>();
+			for (j in 0...20)
+				if (_rand.float() < .1) _map[i][j] = 0;
+				else _map[i][j] = 1;
+		}
+		
+		var _sky = new FlxTilemap();
+		
+		_sky.loadMapFrom2DArray(_map, "assets/images/Sky.png", 32, 32, 0, 0);
+		_sky.y = (unit * 1) + 4;
+		BackgroundObjects.add(_sky);
 	}
 }
