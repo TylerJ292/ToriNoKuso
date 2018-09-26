@@ -10,7 +10,7 @@ import flash.system.System;
  * ...
  * @author ...
  */
-class GameOverState extends FlxState
+class WinState extends FlxState
 {
 	var _playagainButton : FlxButton;
 	var _menuButton: FlxButton;

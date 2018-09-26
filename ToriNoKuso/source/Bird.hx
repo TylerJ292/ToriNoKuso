@@ -4,6 +4,8 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.effects.FlxFlicker;
+import level.LevelManager;
+import flixel.math.FlxPoint;
 
 class Bird extends FlxSprite implements Carrier{
 
@@ -28,6 +30,8 @@ class Bird extends FlxSprite implements Carrier{
 		animation.add("BirdFly", [0, 1, 2, 3, 4], 10, true);
 		animation.play("BirdFly");
 		scale.set(1.5, 1.5);
+		this.height = 16;
+		this.offset = new FlxPoint(0, 8);
 		for (i in 0 ... 5)
 		{
 			hpbarList[i] = 0;
@@ -46,13 +50,16 @@ class Bird extends FlxSprite implements Carrier{
 		dead = true;
 		
 		trace("Player died");
-		
+		new FlxTimer().start(2, gameOverTrigger, 1);
 	}
     //game over, screen freezes and text appears
   }
   
+  public function gameOverTrigger(Timer:FlxTimer):Void{
+	  FlxG.switchState(new GameOverState());
+  }
   public function ConsumeFood() {
-
+	LevelManager.state.trackSCORE += 1000;
 	if (health < 5)
 	{
 		health += .25;
@@ -156,7 +163,7 @@ class Bird extends FlxSprite implements Carrier{
 			if(this.y >= FlxG.height - 64){
 				pullUp = true;
 			}
-			if(pullUp == true && this.y <= FlxG.height - 288){
+			if(pullUp == true && this.y <= FlxG.height - 232){
 				dive = false;
 				velocity.set(0, 0);
 				this.angle = 0.0;

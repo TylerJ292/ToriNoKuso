@@ -144,7 +144,7 @@ class LevelManager
 		if (_ran.float() <= 0.3)
 		{
 			new PicnicTable(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
-			new Food(leftX + unit*5, (segmentHeight - 3) * unit, screenSpeed, true);
+			new Food(leftX + unit*5, (segmentHeight - 2.5) * unit, screenSpeed, true);
 		}	
 		
 		//generate sidewalk
@@ -205,5 +205,34 @@ class LevelManager
 		}
 		
 		return BuildingHeight;
+	}
+	public static function restart()
+	{
+		
+	 state = null;
+	
+	//width and height in tile units
+	 segmentWidth = 15;
+	 segmentHeight = 15;
+	 unit = 32;
+	
+	//containers
+	 LevelObjects = new FlxTypedGroup<LevelObject>(); //all obstacles
+	 BackgroundObjects = new FlxGroup();	//default ordering is to place all level objects in background objects
+	 Obstacles = new FlxTypedGroup<Obstacle>(); //all obstacles
+	 Solids= new FlxTypedGroup<LevelObject>(); //for things people collide with
+	People = new FlxTypedGroup<Person>();
+	 FoodObjects = new FlxTypedGroup<Food>();
+	 BuildingTiles= new FlxTypedGroup<BuildingTile>();
+	
+	//level gen
+	 RightmostObject = null;
+	
+	BuildingHeight;
+	 BuildingHeightMax = 10;
+	 BuildingHeightMin = 0;
+	
+	 screenSpeed = -50;
+	
 	}
 }

@@ -43,7 +43,7 @@ class Person extends LevelObject implements Carrier
 	public var foodRightX:Float = 8;// X coord of food, relative to when facing right
 	public var foodLeftX:Float = -8;// X coord of food, relative to when facing left
 	public var foodY:Float = 2;// Y coord of food, relative
-	public var foodChance:Float = 0.75;//percentage chance of carrying food
+	public var foodChance:Float = 0.50;//percentage chance of carrying food
 	
 	public var throwRange:Float = 3;	//tries to be [0, throwRange] units behind the player when throwing rocks, init value used for standardization
 	public var throwRangeMin:Float = 1; //randomly calculate throwRange to be between min and max
@@ -231,7 +231,7 @@ class Person extends LevelObject implements Carrier
 			velocity.x = LevelManager.screenSpeed;
 			this.state = HIT;
 			animation.play("hit");
-			
+			LevelManager.state.trackSCORE += 500;
 			//should they drop any food they are carrying?
 
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {

@@ -17,6 +17,11 @@ import flixel.math.FlxMath;
 class PlayState extends FlxState
 {
 
+	public var _score:Int = 0;
+	public var trackSCORE:Int = 0;
+	public var trackscore2:Int = 0;
+	public var trackCount:Array<FlxText> = new Array<FlxText>();
+	
 	public var _player:Bird;
 	public var playerSpd:Int = 3;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
@@ -32,13 +37,18 @@ class PlayState extends FlxState
 	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
 	var sqSpawnTimer:FlxTimer;
-	 var sqTimer:FlxTimer;
-	 var sqTimeNum:Int = 0;
+	var sqTimer:FlxTimer;
+	var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
 	public var trackHP:Float = 0;
 	public var trackAMMO:Int = 0;
+	
+	
 	override public function create():Void
 	{
+		
+		
+		FlxG.fullscreen = true;
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
 	//SquirrelSpawn System created
@@ -49,20 +59,23 @@ class PlayState extends FlxState
    
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
-	_Ammogroup = new FlxTypedGroup<Ammo>(0);
+		_Ammogroup = new FlxTypedGroup<Ammo>(0);
 		_player = new Bird(50, 50);
-		
+		trackscore2 = trackSCORE;
 		add(_player);
-		 trackHP = _player.health;
-		 trackAMMO = _player.ammo;
+		trackHP = _player.health;
+		trackAMMO = _player.ammo;
 		convertArrayToHealth(_player.hpbarList);
 		var _poopicon:Heart = new Heart( 225 , 10, 5);
 		add(_poopicon);
-	    var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
+	  var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(trackSCORE), 20);
 		add(disammo);
+		add(disscore);
 		ammoCount[0] = disammo;
+		trackCount[0] = disscore;
 		super.create();
-		//trace(FlxG.width, FlxG.height);
+		trace(FlxG.width, FlxG.height);
 
 	}
 
@@ -71,14 +84,18 @@ class PlayState extends FlxState
 		
 		bossMovement();
 		super.update(elapsed);
-    playerMovement();
+		if(_player.dead == false){
+		playerMovement();
 		Shoot();
+		}
 		collisionCheck();
+		if(_player.dead == false){
 		if(dive){
 			_player.diving();
 			if(!_player.dive){
 				dive = false;
 			}
+		}
 		}
 		level.LevelManager.update(elapsed);
 		
@@ -105,7 +122,15 @@ class PlayState extends FlxState
 				var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
 				add(disammo);
 				ammoCount[0] = disammo;
-				
+			}
+			if (trackscore2 != trackSCORE)
+			{
+				trackscore2 = trackSCORE;
+				var temp:FlxText = trackCount.pop();
+				temp.destroy();
+				var nscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(trackSCORE), 20);
+				add(nscore);
+				trackCount[0] = nscore;
 			}
 	}
 
@@ -123,6 +148,7 @@ class PlayState extends FlxState
 				
 				_boss.bossDirX = -_boss.bossDirX;
 				_boss.x += _boss.bossDirX;
+				_boss.flipX = !_boss.flipX;
 				
 				var _ran:FlxRandom = new FlxRandom();
 				bossAngle = Std.int(_ran.float(40, 70));
@@ -211,7 +237,7 @@ class PlayState extends FlxState
 	{
 		sq.dropdead();
 		poop.destroy();
-		
+		trackSCORE += 500;
 	}
 	
 	public function spawnSQ(Timer:FlxTimer):Void

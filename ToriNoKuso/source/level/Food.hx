@@ -4,6 +4,7 @@ import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxTimer;
 import flixel.group.FlxGroup;
+import flixel.math.FlxPoint;
 
 /**
  * ...
@@ -36,7 +37,6 @@ class Food extends LevelObject
 		else
 			foodType = _foodType;
 			
-		//TODO: Adjust hitbox based on food sprite
 			
 		super(X, Y, SimpleGraphic, initSpeed);
 		
@@ -44,6 +44,8 @@ class Food extends LevelObject
 			animation.add(Std.string(FOODS[i]), [i], 1, false);
 		}
 		animation.play(Std.string(foodType));
+		this.height = 16;
+		this.offset = new FlxPoint(0, 16);
 	}
 	
 	override public function update(elapsed:Float):Void
