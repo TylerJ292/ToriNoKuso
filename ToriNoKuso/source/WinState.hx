@@ -11,7 +11,7 @@ import flixel.text.FlxText;
  * ...
  * @author ...
  */
-class GameOverState extends FlxState
+class WinState extends FlxState
 {
 	var _playagainButton : FlxButton;
 	var _menuButton: FlxButton;

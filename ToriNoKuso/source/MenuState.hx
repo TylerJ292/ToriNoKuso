@@ -49,6 +49,12 @@ class MenuState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		/*
+		if (FlxG.keys.pressed.UP)
+		{
+			FlxG.switchState(new WinState());
+		}
+		*/
 	}
 
 	function clickPlay():Void
