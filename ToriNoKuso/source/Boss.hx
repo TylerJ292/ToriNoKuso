@@ -56,7 +56,6 @@ class Boss extends FlxSprite
 		else if (hp == 0){
 			trace("You WIN!");
 			return false;
-			this.destroy();
 		}
 		return true;
 	}
