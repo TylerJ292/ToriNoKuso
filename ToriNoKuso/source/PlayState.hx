@@ -18,7 +18,7 @@ class PlayState extends FlxState
 {
 
 	public var _player:Bird;
-	public var playerSpd:Int = 2;
+	public var playerSpd:Int = 3;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
 	public var _Ammogroup:FlxTypedGroup<Ammo>;
 	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();

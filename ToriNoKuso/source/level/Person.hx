@@ -2,6 +2,7 @@ package level;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import level.LevelManager;
 import level.LevelObject;
@@ -42,7 +43,7 @@ class Person extends LevelObject implements Carrier
 	public var foodRightX:Float = 8;// X coord of food, relative to when facing right
 	public var foodLeftX:Float = -8;// X coord of food, relative to when facing left
 	public var foodY:Float = 2;// Y coord of food, relative
-	public var foodChance:Float = 0.50;//percentage chance of carrying food
+	public var foodChance:Float = 0.75;//percentage chance of carrying food
 	
 	public var throwRange:Float = 3;	//tries to be [0, throwRange] units behind the player when throwing rocks, init value used for standardization
 	public var throwRangeMin:Float = 1; //randomly calculate throwRange to be between min and max
@@ -86,6 +87,8 @@ class Person extends LevelObject implements Carrier
 		var _rand = new FlxRandom().float(throwRangeMin, throwRangeMax);
 		throwSpeedX *= (_rand / throwRange);
 		throwRange = _rand;
+		
+		startY = Y;
 	}
 
 	/**
@@ -99,6 +102,8 @@ class Person extends LevelObject implements Carrier
 		animation.add("slow", [1, 2, 3, 4, 5, 6, 7, 8], slowRate, true);
 		animation.add("hit", [3], 1, true);
 		
+		width = 16;
+		this.offset = new FlxPoint(8, 0);
 	}
 	
 	override public function update(elapsed:Float):Void
@@ -287,7 +292,6 @@ class Person extends LevelObject implements Carrier
 				//_person.velocity.x = LevelManager.screenSpeed;
 				_person.dir = NONE;
 
-				_person.startY = _person.y;
 				_person.acceleration.y = _person.gravity;
 				_person.velocity.y = -_person.jumpSpeed;
 			}
