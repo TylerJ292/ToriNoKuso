@@ -62,7 +62,7 @@ class Bird extends FlxSprite implements Carrier{
 	LevelManager.state.trackSCORE += 1000;
 	if (health < 5)
 	{
-		health += .5;
+		health += .25;
 		convertHPtoHeart(health);
 	}
 	if (ammo < 20 )
