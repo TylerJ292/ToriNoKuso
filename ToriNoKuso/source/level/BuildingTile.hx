@@ -20,8 +20,14 @@ class BuildingTile extends LevelObject
 	
 	public static var TILES:Array<Int> = [LEFT_WINDOW, CENTER_WINDOW, RIGHT_WINDOW, LEFT_TOP, CENTER_TOP, RIGHT_TOP];
 	
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float, Tile:Int) 
+	public var colorPallete:Int = 0;
+	public static inline var BLUE = 0;
+	public static inline var GREEN = 1;
+	
+	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float, Tile:Int, ?_color:Int = BLUE ) 
 	{
+		colorPallete = _color;
+		initSpeed+= _color * 20;
 		super(X, Y, SimpleGraphic, initSpeed);
 		
 		for(i in TILES){
@@ -31,7 +37,8 @@ class BuildingTile extends LevelObject
 	}
 	
 	override public function graphicFilename():String{
-		return "assets/images/Building.png";
+		if (colorPallete == BLUE) return "assets/images/Building.png";
+		else return "assets/images/Building 2.png";
 	}
 	
 	public function play(Tile:Int){

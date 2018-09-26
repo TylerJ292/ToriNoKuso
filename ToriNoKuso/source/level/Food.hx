@@ -79,7 +79,8 @@ class Food extends LevelObject
 	
 	//since this returns people, people are rendered over tables, ground, etc.
 	override public function getOrderingGroup():FlxGroup{
-		return cast LevelManager.FoodObjects;
+		if (plate ) return LevelManager.BackgroundObjects;
+		else return LevelManager.ForegroundObjects;
 	}
 	/**
 	 * If food is taken
