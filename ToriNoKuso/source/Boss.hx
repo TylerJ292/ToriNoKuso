@@ -58,7 +58,6 @@ class Boss extends FlxSprite
 			trace("You WIN!");
 			LevelManager.state.trackSCORE += 10000;
 			return false;
-			this.destroy();
 		}
 		return true;
 	}
