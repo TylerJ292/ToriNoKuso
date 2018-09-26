@@ -132,7 +132,7 @@ class Bird extends FlxSprite implements Carrier{
 	  }
   }
 	public function getCarryX():Float{
-		return 8;
+		return 8+4;
 	}
 	
 	public function diving(){
@@ -172,7 +172,7 @@ class Bird extends FlxSprite implements Carrier{
 		}
 	}
 	public function getCarryY():Float{
-		return -4;
+		return -4+14;
 	}
 	
 	/**

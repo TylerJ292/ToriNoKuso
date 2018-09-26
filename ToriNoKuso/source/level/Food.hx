@@ -38,7 +38,7 @@ class Food extends LevelObject
 			foodType = _foodType;
 			
 			
-		super(X, Y, SimpleGraphic, initSpeed);
+		super(X, Y+16, SimpleGraphic, initSpeed);
 		
 		for(i in FOODS){
 			animation.add(Std.string(FOODS[i]), [i], 1, false);

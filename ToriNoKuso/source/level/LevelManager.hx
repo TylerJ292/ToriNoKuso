@@ -44,8 +44,8 @@ class LevelManager
 	public static var BuildingHeightMax1:Int = 16;
 	public static var BuildingHeightMin1:Int = 8;
 	
-	public static var stopChance:Float = 1; //decreases by .1 every 20 seconds until it is .1
-	public static var lampChance:Float = 0;  //increases by .1 every 20 seconds until it is .9
+	public static var stopChance:Float = 0.8; //decreases by .1 every 20 seconds until it is .1
+	public static var lampChance:Float = 0.2;  //increases by .1 every 20 seconds until it is .9
 	
 	//level
 	public static var screenSpeed:Float = -50;
@@ -65,7 +65,7 @@ class LevelManager
 		new FlxTimer().start(20, function(_t:FlxTimer){
 			stopChance -= .1;
 			lampChance += .1;
-		},9);
+		},7);
 		
 		genSegment();
 	}
@@ -123,7 +123,7 @@ class LevelManager
 		BuildingHeight0 = LevelManager.genBuilding(BuildingHeight0, BuildingHeightMin0, BuildingHeightMax0, leftX, BuildingTile.BLUE);
 		
 		//streetlamp
-		if (_ran.float() < lampChance || true)
+		if (_ran.float() < lampChance)
 		{
 			var lampHeight:Int = 8;
 			for (i in 2...lampHeight)
@@ -144,7 +144,7 @@ class LevelManager
 		if (_ran.float() <= 0.3)
 		{
 			new PicnicTable(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
-			new Food(leftX + unit*5, (segmentHeight - 2.5) * unit, screenSpeed, true);
+			new Food(leftX + unit*5, (segmentHeight - 3) * unit, screenSpeed, true);
 		}	
 		
 		//generate sidewalk
