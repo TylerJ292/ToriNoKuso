@@ -47,11 +47,14 @@ class Bird extends FlxSprite implements Carrier{
 		dead = true;
 		
 		trace("Player died");
-		
+		new FlxTimer().start(2, gameOverTrigger, 1);
 	}
     //game over, screen freezes and text appears
   }
   
+  public function gameOverTrigger(Timer:FlxTimer):Void{
+	  FlxG.switchState(new GameOverState());
+  }
   public function ConsumeFood() {
 	LevelManager.state.trackSCORE += 1000;
 	if (health < 5)

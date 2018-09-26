@@ -3,6 +3,7 @@ import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flash.system.System;
+import level.LevelManager;
 /**
  * ...
  * @author ...
@@ -34,6 +35,7 @@ class MenuState extends FlxState
 	
 	function clickPlay():Void
 	{
+		LevelManager.restart();
 		FlxG.switchState(new PlayState());
 	}
 	

@@ -174,4 +174,33 @@ class LevelManager
 			new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
 		}
 	}
+	public static function restart()
+	{
+		
+	 state = null;
+	
+	//width and height in tile units
+	 segmentWidth = 15;
+	 segmentHeight = 15;
+	 unit = 32;
+	
+	//containers
+	 LevelObjects = new FlxTypedGroup<LevelObject>(); //all obstacles
+	 BackgroundObjects = new FlxGroup();	//default ordering is to place all level objects in background objects
+	 Obstacles = new FlxTypedGroup<Obstacle>(); //all obstacles
+	 Solids= new FlxTypedGroup<LevelObject>(); //for things people collide with
+	People = new FlxTypedGroup<Person>();
+	 FoodObjects = new FlxTypedGroup<Food>();
+	 BuildingTiles= new FlxTypedGroup<BuildingTile>();
+	
+	//level gen
+	 RightmostObject = null;
+	
+	BuildingHeight;
+	 BuildingHeightMax = 10;
+	 BuildingHeightMin = 0;
+	
+	 screenSpeed = -50;
+	
+	}
 }

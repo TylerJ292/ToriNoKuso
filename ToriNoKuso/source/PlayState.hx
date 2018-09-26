@@ -80,14 +80,18 @@ class PlayState extends FlxState
 		
 		bossMovement();
 		super.update(elapsed);
-    playerMovement();
+		if(_player.dead == false){
+		playerMovement();
 		Shoot();
+		}
 		collisionCheck();
+		if(_player.dead == false){
 		if(dive){
 			_player.diving();
 			if(!_player.dive){
 				dive = false;
 			}
+		}
 		}
 		level.LevelManager.update(elapsed);
 		
