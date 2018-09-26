@@ -15,7 +15,7 @@ class Rock extends FlxSprite
 	
 	public var imageHeight:Int = 6;
 	public var imageWidth:Int = 6;
-	public var filename = "assets/images/Rock.png";
+	public var filename = "assets/images/rock.png";
 	
 	override public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
