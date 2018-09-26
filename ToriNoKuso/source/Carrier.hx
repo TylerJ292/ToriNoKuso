@@ -17,4 +17,12 @@ interface Carrier
 	public function getCarryX():Float;
 	
 	public function getCarryY():Float;
+	
+	/**
+	 * Called from within food, when food is taken
+	 * 
+	 * Does not actually contain logic for food, only for
+	 * the carrier's reaction
+	 */
+	public function foodTaken():Void;
 }

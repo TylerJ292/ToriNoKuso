@@ -3,9 +3,12 @@ import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
+import flixel.effects.FlxFlicker;
 
 class Bird extends FlxSprite implements Carrier{
 
+	public static inline var INVINCIBLE_TIME = 2;
+	
 	public var dive:Bool = false;
 	public var dead:Bool = false;
 	public var pullUp:Bool = false;
@@ -35,8 +38,9 @@ class Bird extends FlxSprite implements Carrier{
     if (health > 0 && invinc == false ) {
       health--;
 	  invinc = true;
-	  new FlxTimer().start(2, invincframe, 1); 
+	  new FlxTimer().start(INVINCIBLE_TIME, invincframe, 1); 
 	  convertHPtoHeart(health);
+	  FlxFlicker.flicker(this, INVINCIBLE_TIME, 0.1);
     }
 	if( health <= 0 ){
 		dead = true;
@@ -162,5 +166,12 @@ class Bird extends FlxSprite implements Carrier{
 	}
 	public function getCarryY():Float{
 		return -4;
+	}
+	
+	/**
+	 * function called if bird's food is ever taken (which it is not)
+	 */
+	public function foodTaken():Void{
+		return;
 	}
 }
