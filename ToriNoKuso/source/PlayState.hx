@@ -260,6 +260,10 @@ class PlayState extends FlxState
 	{
 		trackHP = _player.health;
 		_HPgroup.clear();
+		for (i in _HPgroup)
+		{
+			i.destroy();
+		}
 		var num:Int = 0;
 		for (i in HPArray)
 		{
