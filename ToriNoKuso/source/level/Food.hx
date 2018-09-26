@@ -3,6 +3,7 @@ package level;
 import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxTimer;
+import flixel.group.FlxGroup;
 
 /**
  * ...
@@ -73,13 +74,17 @@ class Food extends LevelObject
 		return 32;
 	}
 	
+	//since this returns people, people are rendered over tables, ground, etc.
+	override public function getOrderingGroup():FlxGroup{
+		return cast LevelManager.FoodObjects;
+	}
 	/**
 	 * If food is taken
 	 * 
 	 * Override in children for custom behavior
 	 */
 	public function takeFood(_bird:Bird){
-	
+		
 		if (foodType != EMPTY_PLATE && carrier != _bird){
 			
 			//TODO: increase bird ammo

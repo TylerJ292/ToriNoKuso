@@ -2,6 +2,7 @@ package level;
 
 import flixel.FlxSprite;
 import flixel.FlxG;
+import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import level.LevelManager;
 /**
@@ -19,7 +20,7 @@ class LevelObject extends FlxSprite
 		super(X, Y, SimpleGraphic);
 		loadGraphic(graphicFilename(), true, getWidth(), getHeight());
 		
-		LevelManager.state.add(this);
+		getOrderingGroup().add(this);
 		LevelManager.LevelObjects.add(this);
 		
 		velocity.x = initSpeed;
@@ -44,6 +45,17 @@ class LevelObject extends FlxSprite
 	
 	public function getHeight():Int{
 		return 32;
+	}
+	
+	/**
+	 * Ordering Groups are those FlxGroups that have
+	 * been added to the state in a specific order in
+	 * LevelManager.startLevelGen().
+	 * 
+	 * @return the base ordering group of this object
+	 */
+	public function getOrderingGroup():FlxGroup{
+		return LevelManager.BackgroundObjects;
 	}
 	
 	/* This function returns true if the object should be destroyed if out of bounds.

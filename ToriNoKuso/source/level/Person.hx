@@ -9,6 +9,7 @@ import level.Obstacle;
 import flixel.util.FlxTimer;
 import flixel.math.FlxRandom;
 import flixel.FlxObject;
+import flixel.group.*;
 
 /**
  * Person who walks around and stuff
@@ -171,6 +172,12 @@ class Person extends LevelObject implements Carrier
 	override public function getHeight():Int{
 		return 64;
 	}
+	
+	//since this returns people, people are rendered over tables, ground, etc.
+	override public function getOrderingGroup():FlxGroup{
+		return cast LevelManager.People;
+	}
+	
 
 	/**
 	 * Called in constructor. Use this to determine if a person is carrying food.
