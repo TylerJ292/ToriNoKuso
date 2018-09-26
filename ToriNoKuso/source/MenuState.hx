@@ -1,4 +1,5 @@
 package;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
@@ -13,9 +14,12 @@ class MenuState extends FlxState
 
 	var _playButton : FlxButton;
 	var _quitButton: FlxButton;
+	var _frontpic: FlxSprite = new FlxSprite(0,0);
 	override public function create():Void
 	{
 
+		_frontpic.loadGraphic("assets/images/Title Screen.png", true, 640, 480);
+		_frontpic.screenCenter();
 		_playButton = new FlxButton(20, 20, "", clickPlay);
 		_playButton.loadGraphic("assets/images/Playbutton.png");
 		_playButton.screenCenter();
@@ -24,6 +28,7 @@ class MenuState extends FlxState
 		_quitButton.loadGraphic("assets/images/Quitbutton.png");
 		_quitButton.screenCenter();
 		_quitButton.y += 130;
+		add(_frontpic);
 		add(_playButton);
 		add(_quitButton);
 		super.create();

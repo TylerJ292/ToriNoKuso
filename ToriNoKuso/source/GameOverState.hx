@@ -1,4 +1,5 @@
 package;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.FlxG; 
@@ -15,12 +16,17 @@ class GameOverState extends FlxState
 	var _playagainButton : FlxButton;
 	var _menuButton: FlxButton;
 	var _quitButton: FlxButton;
+	var _dead: FlxSprite =  new FlxSprite(0,0);
 	override public function create():Void
 	{
 		var score:Float = LevelManager.state.trackSCORE;
-		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 20);
+		_dead.loadGraphic("assets/images/Dead.png", true, 32, 32);
+		_dead.screenCenter();
+		_dead.scale.set(2, 2);
+		_dead.y -= 30;
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 60);
 		disscore.screenCenter();
-		disscore.y += 150;
+		disscore.y -= 150;
 		_playagainButton = new FlxButton(20, 20, "", playagain);
 		_playagainButton.loadGraphic("assets/images/Playagainbutton.png");
 		_playagainButton.screenCenter();
@@ -37,6 +43,7 @@ class GameOverState extends FlxState
 		add(_menuButton);
 		add(_quitButton);
 		add(disscore);
+		add(_dead);
 		super.create();
 	}
 	
