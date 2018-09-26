@@ -37,8 +37,6 @@ class Bird extends FlxSprite implements Carrier{
 	  invinc = true;
 	  new FlxTimer().start(2, invincframe, 1); 
 	  convertHPtoHeart(health);
-	 
-    
     }
 	if( health <= 0 ){
 		dead = true;
@@ -90,7 +88,6 @@ class Bird extends FlxSprite implements Carrier{
 			  convert -= 1;
 			  hpbarList[tracker] = 0;
 			  tracker += 1;
-  
 		  }
 		  else if (convert == .75)
 		  {

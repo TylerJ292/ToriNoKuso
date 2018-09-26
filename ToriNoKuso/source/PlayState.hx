@@ -21,6 +21,7 @@ class PlayState extends FlxState
 	public var _Ammogroup:FlxTypedGroup<Ammo>;
 	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();
 	public var Rocks:FlxTypedGroup<Rock> = new FlxTypedGroup<Rock>();
+	public var ammoCount:Array<FlxText> = new Array<FlxText>();
 	
 	var _boss:Boss;
 	var bossPattern:Int = 0;
@@ -33,8 +34,7 @@ class PlayState extends FlxState
 	 var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
 	public var trackHP:Float = 0;
-	public var disammo:FlxText;
-	
+	public var trackAMMO:Int = 0;
 	override public function create():Void
 	{
     level.LevelManager.state = this;
@@ -52,12 +52,13 @@ class PlayState extends FlxState
 		
 		add(_player);
 		 trackHP = _player.health;
+		 trackAMMO = _player.ammo;
 		convertArrayToHealth(_player.hpbarList);
-		var _poopicon:Heart = new Heart( 200 , 10, 5);
+		var _poopicon:Heart = new Heart( 225 , 10, 5);
 		add(_poopicon);
-		disammo = new FlxText(240, 10, 64); // x, y, width
-		disammo.text = "X" + Std.string(_player.ammo);
-		disammo.size = 14;
+	    var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
+		add(disammo);
+		ammoCount[0] = disammo;
 		super.create();
 		//trace(FlxG.width, FlxG.height);
 
@@ -89,7 +90,16 @@ class PlayState extends FlxState
 			{
 				convertArrayToHealth(_player.hpbarList);
 			}
-			
+			if (trackAMMO != _player.ammo)
+			{
+				trackAMMO = _player.ammo;
+				var temp:FlxText = ammoCount.pop();
+				temp.destroy();
+				var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
+				add(disammo);
+				ammoCount[0] = disammo;
+				
+			}
 	}
 
 	public function spawnBoss(Timer:FlxTimer):Void{
@@ -242,5 +252,8 @@ class PlayState extends FlxState
 			
 		}
 		
+		
 	}
+
 }
+
