@@ -18,6 +18,7 @@ class PlayState extends FlxState
 {
 
 	public var _player:Bird;
+	public var playerSpd:Int = 2;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
 	public var _Ammogroup:FlxTypedGroup<Ammo>;
 	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();
@@ -156,26 +157,26 @@ class PlayState extends FlxState
 	public function playerMovement(){
 
 		if (FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A) {
-			if(_player.x > 0){
-				_player.x -= 2;
+			if(_player.x > 18){
+				_player.x -= playerSpd;
 			}
 			
 		}
 		if (FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
-			if(_player.x < 600){
-				_player.x += 2;
+			if(_player.x < FlxG.width - 48){
+				_player.x += playerSpd;
 			}
 			
 		}
 		if (FlxG.keys.pressed.UP || FlxG.keys.pressed.W) {
 			if(_player.y > 0){
-				_player.y -= 2;
+				_player.y -= playerSpd;
 			}
 		}
 		//288
 		if (FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S) {
-			if(_player.y < 500){
-				_player.y += 2;
+			if(_player.y < FlxG.height - 232){
+				_player.y += playerSpd;
 			}
 		}
 		if(FlxG.keys.pressed.X) {
