@@ -172,7 +172,7 @@ class LevelManager
 			
 		var _heightChange:Int = _ran.int(2, segmentWidth - 2);
 		//var _oldBuildingHeight:Int = BuildingHeight;
-		for ( i in 0...segmentWidth) {
+		for ( i in 0...segmentWidth + 1) {
 			
 			if (i == _heightChange){
 				BuildingHeight = _ran.int(BuildingHeightMin, BuildingHeightMax);

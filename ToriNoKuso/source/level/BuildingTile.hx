@@ -1,6 +1,8 @@
 package level;
 
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxTimer;
+import flixel.math.FlxRandom;
 
 /**
  * Building tile
@@ -34,6 +36,16 @@ class BuildingTile extends LevelObject
 			animation.add(Std.string(TILES[i]), [TILES[i]], 0, false);
 		}
 		animation.play(Std.string(Tile));
+		
+		LevelManager.LevelObjects.remove(this);
+		
+		new FlxTimer().start(5 + new FlxRandom().float(0,5), function(_t:FlxTimer) {
+			if (this.destroyIfOutOfBounds()){
+				this.kill();
+				LevelManager.state.remove(this);
+				this.destroy();
+			}
+		}, 0);
 	}
 	
 	override public function graphicFilename():String{
