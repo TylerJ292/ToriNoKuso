@@ -57,7 +57,7 @@ class MenuState extends FlxState
 	function clickPlay():Void
 	{
 		LevelManager.restart();
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(new IntroState());
 	}
 
 	function quit():Void

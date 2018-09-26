@@ -71,6 +71,8 @@ class Squirrel extends FlxSprite
 			var point:FlxPoint = new FlxPoint(0, 100);
 			FlxVelocity.moveTowardsPoint(this,  point, Sspeed);
 		}
+		else if(ActionRNG == 7){
+		}
 	}
 	
 	function movetoTarget(player:Bird)
