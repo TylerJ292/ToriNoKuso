@@ -231,6 +231,11 @@ class PlayState extends FlxState
 				FlxG.sound.play(AssetPaths.dive_fixed__wav);
 			#end
 		}
+		if (FlxG.keys.pressed.Q)
+		{
+	
+			FlxG.switchState(new WinState());
+		}
 	}
 
 
