@@ -4,6 +4,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.effects.FlxFlicker;
+import level.LevelManager;
 
 class Bird extends FlxSprite implements Carrier{
 
@@ -52,7 +53,7 @@ class Bird extends FlxSprite implements Carrier{
   }
   
   public function ConsumeFood() {
-
+	LevelManager.state.trackSCORE += 1000;
 	if (health < 5)
 	{
 		health += .25;

@@ -226,7 +226,7 @@ class Person extends LevelObject implements Carrier
 			velocity.x = LevelManager.screenSpeed;
 			this.state = HIT;
 			animation.play("hit");
-			
+			LevelManager.state.trackSCORE += 500;
 			//should they drop any food they are carrying?
 
 			new FlxTimer().start(shockTime, function(_t:FlxTimer) {
