@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.effects.FlxFlicker;
 import level.LevelManager;
+import flixel.math.FlxPoint;
 
 class Bird extends FlxSprite implements Carrier{
 
@@ -29,6 +30,8 @@ class Bird extends FlxSprite implements Carrier{
 		animation.add("BirdFly", [0, 1, 2, 3, 4], 10, true);
 		animation.play("BirdFly");
 		scale.set(1.5, 1.5);
+		this.height = 16;
+		this.offset = new FlxPoint(0, 8);
 		for (i in 0 ... 5)
 		{
 			hpbarList[i] = 0;

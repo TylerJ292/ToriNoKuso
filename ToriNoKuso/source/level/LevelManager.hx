@@ -166,7 +166,7 @@ class LevelManager
 		if (_ran.float() <= 0.3)
 		{
 			new PicnicTable(leftX+unit*4, (segmentHeight-2) * unit, screenSpeed);
-			new Food(leftX + unit*5, (segmentHeight - 3) * unit, screenSpeed, true);
+			new Food(leftX + unit*5, (segmentHeight - 2.5) * unit, screenSpeed, true);
 		}	
 		
 		//people

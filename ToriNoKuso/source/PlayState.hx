@@ -37,13 +37,17 @@ class PlayState extends FlxState
 	public var canShoot:Bool = true;
 	public var pullUp:Bool = false;
 	var sqSpawnTimer:FlxTimer;
-	 var sqTimer:FlxTimer;
-	 var sqTimeNum:Int = 0;
+	var sqTimer:FlxTimer;
+	var sqTimeNum:Int = 0;
 	public var dive:Bool = false;
 	public var trackHP:Float = 0;
 	public var trackAMMO:Int = 0;
+	
+	
 	override public function create():Void
 	{
+		
+		
 		FlxG.fullscreen = true;
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
@@ -55,16 +59,16 @@ class PlayState extends FlxState
    
     level.LevelManager.startLevelGen();
     _sqgroup = new FlxTypedGroup<Squirrel>(0);
-	_Ammogroup = new FlxTypedGroup<Ammo>(0);
+		_Ammogroup = new FlxTypedGroup<Ammo>(0);
 		_player = new Bird(50, 50);
 		trackscore2 = trackSCORE;
 		add(_player);
-		 trackHP = _player.health;
-		 trackAMMO = _player.ammo;
+		trackHP = _player.health;
+		trackAMMO = _player.ammo;
 		convertArrayToHealth(_player.hpbarList);
 		var _poopicon:Heart = new Heart( 225 , 10, 5);
 		add(_poopicon);
-	    var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
+	  var disammo:FlxText = new flixel.text.FlxText(260, 7, 0, "X " + Std.string(_player.ammo), 20);
 		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(trackSCORE), 20);
 		add(disammo);
 		add(disscore);
