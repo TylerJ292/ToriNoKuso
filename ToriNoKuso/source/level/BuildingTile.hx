@@ -27,6 +27,7 @@ class BuildingTile extends LevelObject
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float, Tile:Int, ?_color:Int = BLUE ) 
 	{
 		colorPallete = _color;
+		initSpeed+= _color * 20;
 		super(X, Y, SimpleGraphic, initSpeed);
 		
 		for(i in TILES){

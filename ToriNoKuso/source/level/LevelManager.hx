@@ -208,31 +208,38 @@ class LevelManager
 	}
 	public static function restart()
 	{
+		 state = null;
 		
-	 state = null;
-	
-	//width and height in tile units
-	 segmentWidth = 15;
-	 segmentHeight = 15;
-	 unit = 32;
-	
-	//containers
-	 LevelObjects = new FlxTypedGroup<LevelObject>(); //all obstacles
-	 BackgroundObjects = new FlxGroup();	//default ordering is to place all level objects in background objects
-	 Obstacles = new FlxTypedGroup<Obstacle>(); //all obstacles
-	 Solids= new FlxTypedGroup<LevelObject>(); //for things people collide with
-	People = new FlxTypedGroup<Person>();
-	 FoodObjects = new FlxTypedGroup<Food>();
-	 BuildingTiles= new FlxTypedGroup<BuildingTile>();
-	
-	//level gen
-	 RightmostObject = null;
-	
-	BuildingHeight;
-	 BuildingHeightMax = 10;
-	 BuildingHeightMin = 0;
-	
-	 screenSpeed = -50;
-	
+		//width and height in tile units
+		 segmentWidth = 15;
+		 segmentHeight = 15;
+		 unit = 32;
+		
+		//containers
+		 LevelObjects = new FlxTypedGroup<LevelObject>(); //all obstacles
+		 BackgroundObjects = new FlxGroup();	//default ordering is to place all level objects in background objects
+		 ForegroundObjects = new FlxGroup();
+		 Obstacles = new FlxTypedGroup<Obstacle>(); //all obstacles
+		 Solids = new FlxTypedGroup<LevelObject>(); //for things people collide with
+		 People = new FlxTypedGroup<Person>();
+		 FoodObjects = new FlxTypedGroup<Food>();
+		 BuildingTiles = new FlxTypedGroup<BuildingTile>();
+		
+		//level gen
+		 RightmostObject = null;
+		
+		 BuildingHeight0;
+		 BuildingHeightMax0 = 13;
+		 BuildingHeightMin0 = 4;
+		
+		 BuildingHeight1;
+		 BuildingHeightMax1 = 16;
+		 BuildingHeightMin1 = 8;
+		
+		 stopChance = 1; //decreases by .1 every 20 seconds until it is .1
+		 lampChance = 0;  //increases by .1 every 20 seconds until it is .9
+		
+		//level
+		 screenSpeed = -50;
 	}
 }
