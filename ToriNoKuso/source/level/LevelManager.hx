@@ -151,8 +151,8 @@ class LevelManager
 		for ( i in 0...segmentWidth) {
 			
 			//floor
-			var _floor = new Sidewalk(leftX + (i * unit), (segmentHeight - 1.5) * unit, screenSpeed);
-			//Solids.add(_floor);
+			var _floor = new Sidewalk(leftX + (i * unit), (segmentHeight - 2) * unit, screenSpeed, Sidewalk.SIDEWALK);
+			new Sidewalk(leftX + (i * unit), (segmentHeight - 1) * unit, screenSpeed, Sidewalk.ROAD);
 			
 			if (i == segmentWidth - 1){
 				RightmostObject = _floor;
@@ -162,7 +162,7 @@ class LevelManager
 		
 		//people
 		for(i in 1..._ran.int(1,3)){
-			new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3) * unit, screenSpeed);
+			new Person(leftX + (_ran.int(2*i,4*i)*unit), (segmentHeight - 3.5) * unit, screenSpeed);
 		}
 	}
 	

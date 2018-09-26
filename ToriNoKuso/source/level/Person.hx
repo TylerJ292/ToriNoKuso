@@ -42,7 +42,7 @@ class Person extends LevelObject implements Carrier
 	public var food:Food = null;// reference to food object person is carrying
 	public var foodRightX:Float = 0;// X coord of food, relative to when facing right
 	public var foodLeftX:Float = -16;// X coord of food, relative to when facing left
-	public var foodY:Float = 20;// Y coord of food, relative
+	public var foodY:Float = 18;// Y coord of food, relative
 	public var foodChance:Float = 0.50;//percentage chance of carrying food
 	
 	public var throwRange:Float = 3;	//tries to be [0, throwRange] units behind the player when throwing rocks, init value used for standardization
@@ -162,6 +162,9 @@ class Person extends LevelObject implements Carrier
 					}
 				}
 			}
+			
+			if (y > FlxG.height)
+				y = startY;
 		}
 	}
 
