@@ -17,13 +17,13 @@ class Heart extends FlxSprite
 		heartID = type;
 		if(heartID != 5){
 		loadGraphic("assets/images/Hearts.png", true, 32, 32);
-		animation.add("Hearty", [heartID], false);
+		animation.add("Hearty", [heartID], 0, false);
 		animation.play("Hearty");
 		}
 		else
 		{
 			loadGraphic("assets/images/Kuso.png", true , 32, 32);
-			animation.add("poop", [3], false);
+			animation.add("poop", [3], 0, false);
 			animation.play("poop");
 			scale.set(3, 3);
 		}

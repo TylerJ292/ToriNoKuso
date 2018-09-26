@@ -83,8 +83,9 @@ class LevelManager
 		for (obj in LevelObjects){
 			obj.update(elapsed);
 			if (!obj.alive){
-				//LevelObjects.remove(obj);
-				//state.remove(obj);
+				LevelObjects.remove(obj);
+				state.remove(obj);
+				obj.destroy();
 			}
 		}
 	}
@@ -102,42 +103,43 @@ class LevelManager
 		
 		var _ran:FlxRandom = new FlxRandom();
 		
-		//generate building one column at a time, change height in middle
-		
-		var _heightChange:Int = _ran.int(2, segmentWidth - 2);
-		//var _oldBuildingHeight:Int = BuildingHeight;
-		for ( i in 0...segmentWidth) {
+		if(false){
+			//generate building one column at a time, change height in middle
 			
-			if (i == _heightChange){
-				BuildingHeight = _ran.int(BuildingHeightMin, BuildingHeightMax);
-			}
-			
-			for (j in 0...segmentHeight){
-				if (j == BuildingHeight){
-					if (i == _heightChange-1){
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.RIGHT_TOP);
-					}
-					else if (i == _heightChange){
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.LEFT_TOP);
-					}
-					else{
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.CENTER_TOP);
-					}
+			var _heightChange:Int = _ran.int(2, segmentWidth - 2);
+			//var _oldBuildingHeight:Int = BuildingHeight;
+			for ( i in 0...segmentWidth) {
+				
+				if (i == _heightChange){
+					BuildingHeight = _ran.int(BuildingHeightMin, BuildingHeightMax);
 				}
-				else if (j < BuildingHeight){
-					if (i == _heightChange-1){
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.RIGHT_WINDOW);
+				
+				for (j in 0...segmentHeight){
+					if (j == BuildingHeight){
+						if (i == _heightChange-1){
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.RIGHT_TOP);
+						}
+						else if (i == _heightChange){
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.LEFT_TOP);
+						}
+						else{
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.CENTER_TOP);
+						}
 					}
-					else if (i == _heightChange){
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.LEFT_WINDOW);
-					}
-					else{
-						new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.CENTER_WINDOW);
+					else if (j < BuildingHeight){
+						if (i == _heightChange-1){
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.RIGHT_WINDOW);
+						}
+						else if (i == _heightChange){
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.LEFT_WINDOW);
+						}
+						else{
+							new BuildingTile(leftX + (i * unit), (segmentHeight - j) * unit, screenSpeed, BuildingTile.CENTER_WINDOW);
+						}
 					}
 				}
 			}
 		}
-		
 		
 		//generate sidewalk
 		for ( i in 0...segmentWidth) {
