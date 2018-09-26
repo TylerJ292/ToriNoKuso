@@ -5,6 +5,9 @@ import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flash.system.System;
 import level.LevelManager;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+
 /**
  * ...
  * @author ...
@@ -18,6 +21,14 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 
+		var sign:FlxText = new flixel.text.FlxText(400, 7, 0, "Snack", 70);
+		var sign2:FlxText = new flixel.text.FlxText(400, 7, 0, "Snatcher", 70);
+		sign.screenCenter();
+		sign.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		sign2.screenCenter();
+		sign.y -= 180;
+		sign2.y -= 80;
+		sign2.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		_frontpic.loadGraphic("assets/images/Title Screen.png", true, 640, 480);
 		_frontpic.screenCenter();
 		_playButton = new FlxButton(20, 20, "", clickPlay);
@@ -31,6 +42,8 @@ class MenuState extends FlxState
 		add(_frontpic);
 		add(_playButton);
 		add(_quitButton);
+		add(sign);
+		add(sign2);
 		super.create();
 
 		#if flash
