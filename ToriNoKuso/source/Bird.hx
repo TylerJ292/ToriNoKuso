@@ -145,11 +145,6 @@ class Bird extends FlxSprite implements Carrier{
 			dive = true;
 		}
 		if(dive){
-			#if flash
-				FlxG.sound.play(AssetPaths.dive__mp3);
-			#else
-				FlxG.sound.play(AssetPaths.dive__wav);
-			#end
 			if(!pullUp){
 				if(this.x < FlxG.width - 32){
 					velocity.set(100, 250);

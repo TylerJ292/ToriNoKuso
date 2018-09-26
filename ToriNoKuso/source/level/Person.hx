@@ -250,6 +250,11 @@ class Person extends LevelObject implements Carrier
 		if (this.state != DEPRESSED){
 			velocity.x = LevelManager.screenSpeed;
 			this.state = HIT;
+			#if flash
+				FlxG.sound.play(AssetPaths.am_hit__mp3);
+			#else
+				FlxG.sound.play(AssetPaths.am_hit__wav);
+			#end
 			animation.play("hit");
 			LevelManager.state.trackSCORE += 500;
 			//should they drop any food they are carrying?
