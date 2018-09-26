@@ -1,6 +1,7 @@
 package;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.util.FlxTimer;
 
 /**
  * ...
@@ -21,6 +22,8 @@ class IntroState extends FlxState
 		sq2 = new Squirrel(182, 50, 7, bird);
 		fridge = new Fridge(150, 82);
 		
+		new FlxTimer().start(15, play, 1);
+		
 		new FlxText(20, 300, "One day The Bird was minding his own business when suddenly, flying squirrels break into his house and steal his fridge.
 			 Now, The Bird must seek out revenge on the squirrel king and take back his fridge.", 12);
 	}
@@ -33,5 +36,8 @@ class IntroState extends FlxState
 		super.update(elapsed);
 	}
 	
+	public function play(Timer:FlxTimer):Void{
+		FlxG.switchState(new PlayState());
+	}
 	
 }
