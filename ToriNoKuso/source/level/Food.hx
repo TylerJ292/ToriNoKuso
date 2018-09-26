@@ -38,7 +38,7 @@ class Food extends LevelObject
 			foodType = _foodType;
 			
 			
-		super(X, Y, SimpleGraphic, initSpeed);
+		super(X, Y+16, SimpleGraphic, initSpeed);
 		
 		for(i in FOODS){
 			animation.add(Std.string(FOODS[i]), [i], 1, false);
@@ -79,7 +79,8 @@ class Food extends LevelObject
 	
 	//since this returns people, people are rendered over tables, ground, etc.
 	override public function getOrderingGroup():FlxGroup{
-		return cast LevelManager.FoodObjects;
+		if (plate ) return LevelManager.BackgroundObjects;
+		else return LevelManager.ForegroundObjects;
 	}
 	/**
 	 * If food is taken
