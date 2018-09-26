@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.math.FlxAngle;
 import flixel.util.FlxTimer;
+import level.LevelManager;
 
 class Boss extends FlxSprite
 {
@@ -55,6 +56,7 @@ class Boss extends FlxSprite
 		}
 		else if (hp == 0){
 			trace("You WIN!");
+			LevelManager.state.trackSCORE += 10000;
 			return false;
 			this.destroy();
 		}

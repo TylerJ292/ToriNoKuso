@@ -270,12 +270,18 @@ class PlayState extends FlxState
 	//need to add delay so that there is a couple seconds of "invincibility" after
 	//the first instance of a collision
 	public function collisionCheck(){
-		if(FlxG.overlap(_player, _sqgroup) || (FlxG.overlap(_player, _boss) && !_boss.grounded) || FlxG.overlap(_player,Rocks)) {
-			_player.healthTracker();
-			
+		if(FlxG.overlap(_player, _sqgroup) ) {
+			_player.healthTracker(.5);
 		}
-		if(bossSpawned && FlxG.overlap(_boss, _Ammogroup) && !_boss.grounded && !_boss.invincible){
+		if (FlxG.overlap(_player, _boss) && !_boss.grounded){
+			_player.healthTracker(1);
+		}
+		if ( FlxG.overlap(_player, Rocks)){
+			_player.healthTracker(.5);
+		}
+		if (bossSpawned && FlxG.overlap(_boss, _Ammogroup) && !_boss.grounded && !_boss.invincible){
 			_boss.drop(_player);
+			
 		}
 		if(bossSpawned && _boss.grounded && FlxG.overlap(_player, _boss) && !_boss.invincible){
 			bossSpawned = _boss.damage();

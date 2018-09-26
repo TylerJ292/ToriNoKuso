@@ -38,9 +38,9 @@ class Bird extends FlxSprite implements Carrier{
 		}
 	}
 
-  public function healthTracker() {
+  public function healthTracker(dmg:Float) {
     if (health > 0 && invinc == false ) {
-      health--;
+      health = health-dmg;
 	  invinc = true;
 	  new FlxTimer().start(INVINCIBLE_TIME, invincframe, 1); 
 	  convertHPtoHeart(health);
@@ -62,7 +62,7 @@ class Bird extends FlxSprite implements Carrier{
 	LevelManager.state.trackSCORE += 1000;
 	if (health < 5)
 	{
-		health += .25;
+		health += .5;
 		convertHPtoHeart(health);
 	}
 	if (ammo < 20 )

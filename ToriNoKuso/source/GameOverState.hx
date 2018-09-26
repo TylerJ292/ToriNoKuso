@@ -4,7 +4,7 @@ import flixel.ui.FlxButton;
 import flixel.FlxG; 
 import level.LevelManager;
 import flash.system.System;
-
+import flixel.text.FlxText;
 
 /**
  * ...
@@ -17,6 +17,10 @@ class GameOverState extends FlxState
 	var _quitButton: FlxButton;
 	override public function create():Void
 	{
+		var score:Float = LevelManager.state.trackSCORE;
+		var disscore:FlxText = new flixel.text.FlxText(400, 7, 0, Std.string(score), 20);
+		disscore.screenCenter();
+		disscore.y += 150;
 		_playagainButton = new FlxButton(20, 20, "", playagain);
 		_playagainButton.loadGraphic("assets/images/Playagainbutton.png");
 		_playagainButton.screenCenter();
@@ -32,6 +36,7 @@ class GameOverState extends FlxState
 		add(_playagainButton);
 		add(_menuButton);
 		add(_quitButton);
+		add(disscore);
 		super.create();
 	}
 	

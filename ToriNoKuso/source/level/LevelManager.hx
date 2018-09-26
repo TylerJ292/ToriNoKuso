@@ -80,7 +80,7 @@ class LevelManager
 		/**		COLLISION DETECTION WITH LEVEL OBJECTS GOES HERE	**/
 		
 		//bird vs. obstacle
-		if (FlxG.overlap(state._player, Obstacles)) state._player.healthTracker();
+		if (FlxG.overlap(state._player, Obstacles)) state._player.healthTracker(.25);
 		
 		//people physics
 		FlxG.collide(People, Solids, Person.onCollision);
