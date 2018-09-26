@@ -6,7 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author Jay
  */
-class PicnicTable extends Obstacle 
+class PicnicTable extends LevelObject 
 {
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset, initSpeed:Float) 

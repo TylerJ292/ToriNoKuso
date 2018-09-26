@@ -2,6 +2,7 @@ package;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import level.*;
+import flixel.util.FlxTimer;
 /**
  * Rock projectile thrown by people
  * 
@@ -27,6 +28,8 @@ class Rock extends FlxSprite
 		acceleration.y = gravity;
 		
 		set_immovable(false);
+		
+		new FlxTimer().start(5, function(_t:FlxTimer){this.kill(); });
 	}
 	
 }
