@@ -18,7 +18,7 @@ class PlayState extends FlxState
 {
 
 	public var _player:Bird;
-	public var playerSpd:Int = 2;
+	public var playerSpd:Int = 3;
 	public var _sqgroup:FlxTypedGroup<Squirrel>;
 	public var _Ammogroup:FlxTypedGroup<Ammo>;
 	public var _HPgroup:FlxTypedGroup<Heart> = new FlxTypedGroup<Heart>();
@@ -39,6 +39,7 @@ class PlayState extends FlxState
 	public var trackAMMO:Int = 0;
 	override public function create():Void
 	{
+		FlxG.fullscreen = true;
     level.LevelManager.state = this;
     FlxG.camera.bgColor= FlxColor.BLUE;
 	//SquirrelSpawn System created
@@ -123,6 +124,7 @@ class PlayState extends FlxState
 				
 				_boss.bossDirX = -_boss.bossDirX;
 				_boss.x += _boss.bossDirX;
+				_boss.flipX = !_boss.flipX;
 				
 				var _ran:FlxRandom = new FlxRandom();
 				bossAngle = Std.int(_ran.float(40, 70));

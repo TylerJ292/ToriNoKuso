@@ -156,7 +156,7 @@ class Bird extends FlxSprite implements Carrier{
 			if(this.y >= FlxG.height - 64){
 				pullUp = true;
 			}
-			if(pullUp == true && this.y <= FlxG.height - 288){
+			if(pullUp == true && this.y <= FlxG.height - 232){
 				dive = false;
 				velocity.set(0, 0);
 				this.angle = 0.0;
