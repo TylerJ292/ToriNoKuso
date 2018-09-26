@@ -25,7 +25,11 @@ class Boss extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
-		loadGraphic("assets/images/32red.png");
+		loadGraphic("assets/images/Squirrel King.png", true, 32, 64);
+		animation.add("bossFly", [0, 1], 9, true);
+		animation.play("bossFly");
+		scale.set(1.5, 1.5);
+		updateHitbox();
 	}
 	
 	public function drop(player:Bird){

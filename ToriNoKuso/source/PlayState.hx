@@ -125,21 +125,21 @@ class PlayState extends FlxState
 				var _ran:FlxRandom = new FlxRandom();
 				bossPattern = Std.int(_ran.float(0, 5));
 			}
-			if (_boss.y <= 32 || _boss.y -32 >= FlxG.height - 200){
+			if (_boss.y <= 16 || _boss.y -64 >= FlxG.height - 200){
 				_boss.bossDirY = -_boss.bossDirY;
 				_boss.y += _boss.bossDirY;
 			}
 			if(_boss.directedCharge){
-				if(_boss.y <= 32){
+				if(_boss.y <= 64){
 					_boss.velocity.set(_boss.velocity.x, -_boss.velocity.y);
 				}
-				else if(_boss.y -32 >= FlxG.height - 200){
+				else if(_boss.y -64 >= FlxG.height - 200){
 					_boss.velocity.set(_boss.velocity.x, -FlxMath.absInt(Std.int(_boss.velocity.y)));
 				}
 			}
 			_boss.bossMove(bossPattern, bossAngle, _player);
 		}
-		else if(bossSpawned && _boss.grounded && _boss.y <= FlxG.height - 64){
+		else if(bossSpawned && _boss.grounded && _boss.y <= FlxG.height - 98){
 			if(_boss.x < 0 || _boss.x > FlxG.width - 32){
 				_boss.velocity.set(_boss.bossDirX * 50, 100);
 				bossPattern = 5;
