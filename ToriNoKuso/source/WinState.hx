@@ -21,7 +21,7 @@ class GameOverState extends FlxState
 	{
 		var score:Float = LevelManager.state.trackSCORE;
 		_win.loadGraphic("assets/images/ReturnHome.png", true, 32, 64);	
-		_win.animation.add("BirdWin", [0, 1, 2, 3, 4], 10, true);
+		_win.animation.add("BirdWin", [0, 1], 10, true);
 		_win.animation.play("BirdWin");
 		_win.screenCenter();
 		_win.scale.set(2, 2);
